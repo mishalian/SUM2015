@@ -4,30 +4,41 @@
  */
 
 #include <windows.h>
+#include <math.h>
 
 /* Имя класса окна */
 #define WND_CLASS_NAME "My window class"
+#define SQR(X) ((X) * (X))
 
 /* Ссылка вперед */
 LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
                                WPARAM wParam, LPARAM lParam );
 
-VOID DrawEye( HDC hDC, int px, int py, int w, int h, int ex )
+VOID PutCir( HDC hDC, int x, int y )
 {
-  int t, dx, dy;
-
-  if (w >= h)
-    t = (int)(w / 100); 
-  else
-    t = (int)(h / 100);
-
-  dx = (px - w / 2) / t;
-  dy = (h / 2 - py) / t;
-
   SelectObject (hDC, GetStockObject(DC_BRUSH));
   SetDCBrushColor(hDC, RGB(0, 0, 0));
-  Ellipse(hDC, ex - dx - 10, h / 2 - dy - 10, ex - dx + 10, h / 2 + 10 );
-} 
+  Ellipse(hDC, x - 10, y - 10, x + 10, y + 10 );
+}
+
+
+VOID DrawEye( HDC hDC, int px, int py, int w, int h, int ex )
+{
+  int dx, dy, Dx, Dy;
+
+  dx = px - ex;
+  dy = h / 2 - py;
+  
+  if (sqrt(SQR(dx) + SQR(dy)) <= 500)
+  {
+    Dx = dx / 13;
+    Dy = dy / 13;
+    PutCir(hDC, ex + Dx, h / 2 - Dy);
+  }
+
+}
+
+
 
 /* Главная функция программы.
  *   - дескриптор экземпляра приложения:
@@ -57,7 +68,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
                                        * отработки двойного нажатия */
   wc.cbClsExtra = 0; /* Дополнительное количество байт для класса */
   wc.cbWndExtra = 0; /* Дополнительное количество байт для окна */
-  wc.hbrBackground = CreateSolidBrush(RGB(255, 255, 255));
+  wc.hbrBackground = CreateSolidBrush(RGB(0, 255, 0));
   wc.hCursor = LoadCursor(NULL, IDC_HAND); /* Загрузка курсора (системного) */
   wc.hIcon = LoadIcon(NULL, IDI_ASTERISK); /* Загрузка пиктограммы (системной) */
   wc.hInstance = hInstance; /* Дескриптор приложения, регистрирующего класс */
