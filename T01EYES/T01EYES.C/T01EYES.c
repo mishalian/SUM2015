@@ -35,7 +35,6 @@ VOID DrawEye( HDC hDC, int px, int py, int w, int h, int ex )
     Dy = dy / 13;
     PutCir(hDC, ex + Dx, h / 2 - Dy);
   }
-
 }
 
 
