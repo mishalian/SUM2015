@@ -25,6 +25,7 @@ VOID PutCir( HDC hDC, int x, int y )
 VOID DrawEye( HDC hDC, int px, int py, int w, int h, int ex )
 {
   int dx, dy, Dx, Dy;
+  double t;
 
   dx = px - ex;
   dy = h / 2 - py;
@@ -33,8 +34,15 @@ VOID DrawEye( HDC hDC, int px, int py, int w, int h, int ex )
   {
     Dx = dx / 13;
     Dy = dy / 13;
-    PutCir(hDC, ex + Dx, h / 2 - Dy);
   }
+  else
+  {
+    t = sqrt(SQR(dx) + SQR(dy)) / 40;
+
+    Dx = (int)(dx / t); 
+    Dy = (int)(dy / t); 
+  }
+  PutCir(hDC, ex + Dx, h / 2 - Dy);
 }
 
 
