@@ -1,8 +1,14 @@
+/*T03PERM
+ *MC11
+ *03.06.2015
+ *Create a file with all posible combinations of N elements
+ */
+
 #include <stdio.h>
 
 #define N 5
 
-int p[N];
+int p[N], Parity = 0;
 
 void Write( int x );
 
@@ -30,9 +36,7 @@ void Go( int Pos )
     {
       Swap(&p[Pos], &p[i]);
       Go(Pos + 1);        
-      Swap(&p[Pos], &p[i]);
-      /*if (Pos != i)
-        Parity = !Parity;      */
+      Swap(&p[Pos], &p[i]);      
     }  
   }
   
@@ -66,8 +70,6 @@ void Fill( void )
 
 void main( void )
 {
-/*  bool Parity FALSE; */
-
   Fill();  
   Go(0);
-}
+} /* End of T03PERM */
