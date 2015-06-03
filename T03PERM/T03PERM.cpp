@@ -10,7 +10,22 @@
 
 int p[N], Parity = 0;
 
-void Write( int x );
+void Write( int x )
+{
+  FILE *F;
+  static int t = 0;
+
+  if ((F = fopen("a.log", "a")) != NULL)
+  {
+    t++;
+    fprintf(F, "%d ", x);
+
+    if (t % 5 == 0)
+      fprintf(F, "\n");
+      
+    fclose(F);  
+  }
+}
 
 void Swap( int *A, int *B )
 {
@@ -42,23 +57,6 @@ void Go( int Pos )
   
 }
 
-void Write( int x )
-{
-  FILE *F;
-  static int k = 0;
-
-  if ((F = fopen("a.log", "a")) != NULL)
-  {
-    k++;
-    fprintf(F, "%d ", x);
-
-    if (k % 5 == 0)
-      fprintf(F, "\n");
-      
-    fclose(F);  
-  }
-
-}
 
 void Fill( void )
 {
