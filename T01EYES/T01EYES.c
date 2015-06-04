@@ -30,10 +30,10 @@ VOID DrawEye( HDC hDC, int px, int py, int w, int h, int ex )
   dx = px - ex;
   dy = h / 2 - py;
   
-  if (sqrt(SQR(dx) + SQR(dy)) <= 500)
+  if (sqrt(SQR(dx) + SQR(dy)) <= 200)
   {
-    Dx = dx / 13;
-    Dy = dy / 13;
+    Dx = dx / 6;
+    Dy = dy / 6;
   }
   else
   {
