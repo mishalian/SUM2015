@@ -4,7 +4,8 @@
  *Create clock animation.
  */
 
-#include <stdio.h>
+#pragma warning(disable: 4244)
+
 #include <math.h>
 #include <string.h>
 #include <time.h>
@@ -62,8 +63,8 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
     CreateWindow(WND_CLASS_NAME,    /* Имя класса окна */
       "Time",                      /* Заголовок окна */
       WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,          /* Стили окна - окно общего вида */
-      CW_USEDEFAULT, CW_USEDEFAULT, /* Позиция окна (x, y) - по умолчанию */
-      CW_USEDEFAULT, CW_USEDEFAULT, /* Размеры окна (w, h) - по умолчанию */
+      960 - 450, 540 - 450, /* Позиция окна (x, y) - по умолчанию */
+      900, 900, /* Размеры окна (w, h) - по умолчанию */
       NULL,                         /* Дескриптор родительского окна */
       NULL,                         /* Дескриптор загруженного меню */
       hInstance,                    /* Дескриптор приложения */
@@ -107,12 +108,11 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
   SYSTEMTIME st;
   CHAR Buf[100];
   HFONT hFnt;
-  RECT rc;
   static BITMAP bm;
   static HBITMAP hBm, hBmLogo;
   static HDC hMemDC, hMemDCLogo;
   static INT w, h;
-  static CHAR img[] = "clock.bmp";
+  //static CHAR img[] = "clock.bmp";
 
 
   switch (Msg)
@@ -121,11 +121,11 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
     cs = (CREATESTRUCT *)lParam;
     SetTimer(hWnd, 111, 50, NULL);
 
-    hBmLogo = LoadImage(NULL, "img", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+    hDC = GetDC(hWnd);
+    hBmLogo = LoadImage(NULL, "clock.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
     GetObject(hBmLogo, sizeof(bm), &bm);
 
     /* создаем контекст в памяти */
-    hDC = GetDC(hWnd);
     hMemDC = CreateCompatibleDC(hDC);
     hMemDCLogo = CreateCompatibleDC(hDC);
     ReleaseDC(hWnd, hDC);
@@ -156,52 +156,39 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
     SetDCBrushColor(hMemDC, RGB(0, 0, 0));
     Rectangle(hMemDC, 0, 0, w + 1, h + 1);
 
+    SelectObject(hMemDC, hBm);
     BitBlt(hMemDC, w / 2 - 300, h / 2 - 300, 600, 600,
       hMemDCLogo, 0, 0, SRCCOPY);
 
     /* Draw picture */
-    hFnt = CreateFont(70, 0, 0, 0, FW_BOLD, FALSE, FALSE,
+    hFnt = CreateFont(100, 0, 0, 0, FW_BOLD, FALSE, FALSE,
       FALSE, RUSSIAN_CHARSET, OUT_DEFAULT_PRECIS,
       CLIP_DEFAULT_PRECIS, PROOF_QUALITY,
       VARIABLE_PITCH | FF_ROMAN, "");
+    hFnt = SelectObject(hMemDC, hFnt);
     GetLocalTime(&st);
     SetTextColor(hMemDC, RGB(0, 200, 200));
-    /*SetBkColor(hMemDC, RGB(0, 0, 0));  */
+    SetBkColor(hMemDC, RGB(0, 0, 0));  
     SetBkMode(hMemDC, TRANSPARENT);
-    TextOut(hMemDC, w / 2 - 200, h / 2 - 300, Buf,
+    TextOut(hMemDC, w / 2 - 165, h / 2 - 400, Buf,
       sprintf(Buf, "%02d:%02d:%02d",
         st.wHour, st.wMinute, st.wSecond));
-    TextOut(hMemDC, w / 2 - 200, h / 2 + 400, Buf,
+    TextOut(hMemDC, w / 2 - 200, h / 2 + 300, Buf,
       sprintf(Buf, "%02d.%02d.%d",
         st.wDay, st.wMonth, st.wYear));
 
     DeleteObject(hFnt);
-
-    hFnt = CreateFont(30, 0, 0, 0, FW_BOLD, TRUE, FALSE,
-      TRUE, RUSSIAN_CHARSET, OUT_DEFAULT_PRECIS,
-      CLIP_DEFAULT_PRECIS, PROOF_QUALITY,
-      VARIABLE_PITCH | FF_SWISS, "");
-    SelectObject(hMemDC, hFnt);
-
-    rc.left = 5;
-    rc.top = 5;
-    rc.right = w - 5;
-    rc.bottom = h - 5;
-    SetTextColor(hMemDC, RGB(222, 55, 0));
-    DrawText(hMemDC, Buf, strlen(Buf), &rc,
-      DT_SINGLELINE | DT_VCENTER | DT_CENTER);
-
-    DeleteObject(hFnt);       
-
+  
     InvalidateRect(hWnd, NULL, TRUE);
     return 0;
 
   case WM_CLOSE:
-    return 0;
+    break;
 
   case WM_ERASEBKGND:
     BitBlt((HDC)wParam, 0, 0, w, h, hMemDC, 0, 0, SRCCOPY);
     return 0;
+
 
   case WM_DESTROY:
     DeleteDC(hMemDC);
@@ -212,6 +199,6 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
     PostQuitMessage(0);
     return 0;
   }
-
-}
+  return DefWindowProc(hWnd, Msg, wParam, lParam);
+} /* End of 'MyWindowFunc' function */
 
