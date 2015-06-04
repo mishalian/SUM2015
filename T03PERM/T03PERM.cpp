@@ -10,19 +10,17 @@
 
 int p[N], Parity = 0;
 
-void Write( int x )
+void Write( void )
 {
   FILE *F;
-  static int t = 0;
+  static int t;
 
   if ((F = fopen("a.log", "a")) != NULL)
   {
-    t++;
-    fprintf(F, "%d ", x);
+    for (t = 0; t < N; t++)
+      fprintf(F, "%d ", p[t]);  
+    fprintf(F, "\n");  
 
-    if (t % 5 == 0)
-      fprintf(F, "\n");
-      
     fclose(F);  
   }
 }
@@ -41,8 +39,7 @@ void Go( int Pos )
 
   if (Pos == N)
   { 
-    for (i = 0; i < N; i++)
-      Write(p[i]);
+    Write();
     return;   
   }
   else
@@ -53,8 +50,7 @@ void Go( int Pos )
       Go(Pos + 1);        
       Swap(&p[Pos], &p[i]);      
     }  
-  }
-  
+  }  
 }
 
 
