@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="T02CLOCK3"
+	Name="T02CLOCK"
 	ProjectGUID="{3CE7FC73-3767-4813-A534-C500CD766339}"
 	RootNamespace="T02CLOCK3"
 	Keyword="Win32Proj"
@@ -179,7 +179,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\T02CLOCK3.C"
+				RelativePath=".\T02CLOCK.C"
 				>
 			</File>
 		</Filter>
