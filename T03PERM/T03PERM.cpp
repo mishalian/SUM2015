@@ -8,7 +8,7 @@
 
 #define N 5
 
-int p[N], Parity = 0;
+int p[N], Parity = 0, C;
 
 void Write( void )
 {
@@ -19,7 +19,10 @@ void Write( void )
   {
     for (t = 0; t < N; t++)
       fprintf(F, "%d ", p[t]);  
-    fprintf(F, "\n");  
+    if (Parity)
+      fprintf(F, "- odd\n");
+    else
+      fprintf(F, "- even\n");
 
     fclose(F);  
   }
@@ -31,6 +34,9 @@ void Swap( int *A, int *B )
 
   *A = *B;
   *B = tmp;
+
+  if (*A != *B)
+    Parity = !Parity;
 }
 
 void Go( int Pos )
