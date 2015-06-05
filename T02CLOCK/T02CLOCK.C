@@ -178,6 +178,8 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
         st.wDay, st.wMonth, st.wYear));
 
     DeleteObject(hFnt);
+
+
   
     InvalidateRect(hWnd, NULL, TRUE);
     return 0;
