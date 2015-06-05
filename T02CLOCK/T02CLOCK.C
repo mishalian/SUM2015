@@ -13,6 +13,7 @@
 #include <windows.h>
 
 #define SQR(X) (X) * (X)
+#define PI 3.14159265358979323846
 
 #define WND_CLASS_NAME "My window class"
 
@@ -102,17 +103,17 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
                                WPARAM wParam, LPARAM lParam )
 {
   HDC hDC;
-  CREATESTRUCT *cs;
-/*  POINT pt;
-  PAINTSTRUCT ps; */
+  CREATESTRUCT *cs; 
+  POINT pt;
   SYSTEMTIME st;
   CHAR Buf[100];
   HFONT hFnt;
+  HPEN hPen;
+  DOUBLE Angle;
   static BITMAP bm;
   static HBITMAP hBm, hBmLogo;
   static HDC hMemDC, hMemDCLogo;
   static INT w, h;
-  //static CHAR img[] = "clock.bmp";
 
 
   switch (Msg)
@@ -179,7 +180,17 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
 
     DeleteObject(hFnt);
 
+    Angle = st.wSecond / 30.0 * PI;
 
+    hPen = CreatePen(PS_SOLID, 5, RGB(255, 255, 255));
+    SelectObject(hMemDC, hPen);
+
+    pt.x = cos(Angle) * 250;
+    pt.y = sin(Angle) * 250;
+    MoveToEx(hMemDC, w / 2, h / 2, NULL);
+    LineTo(hMemDC, w / 2 - pt.x, h / 2 - pt.y);
+    
+    DeleteObject(hPen);   
   
     InvalidateRect(hWnd, NULL, TRUE);
     return 0;
