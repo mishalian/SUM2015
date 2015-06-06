@@ -137,13 +137,8 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
     SelectObject(hMemDC, GetStockObject(DC_BRUSH));
     SetDCBrushColor(hMemDC, RGB(255, 255, 150));
     Rectangle(hMemDC, 0, 0, w + 1, h + 1);
-    
-    SelectObject(hDC, GetStockObject(NULL_PEN));
-    SelectObject(hDC, GetStockObject(DC_BRUSH));
-    SetDCBrushColor(hDC, RGB(0, 0, 0));
-    Ellipse(hDC, w / 2 - 50, h / 2 - 50, w / 2 + 50, h / 2 + 50);
 
-    BuildGlobe(hDC, w, h);
+    BuildGlobe(hMemDC, w, h);
     SelectObject(hMemDC, hBm);
     BitBlt(hDC, 0, 0, w, h, hMemDC, 0, 0, SRCCOPY);
     InvalidateRect(hWnd, NULL, TRUE);
