@@ -9,11 +9,18 @@
 
 #define PI 3.14159265358979323846
 #define R 200
+#define DBL double
+#define M 30
+#define N 30
 
 typedef struct
 {
-  INT x;
-  INT y;
-}MPT;
+	DBL X;
+	DBL Y;
+	DBL Z;
+}VEC;
 
-BuildGlobe( HDC hDC, INT w, INT h );
+static VEC Grid[N][M];
+
+VOID BuildGlobe(HDC hDC, INT w, INT h);
+VOID DrawGlobe(HDC hDC, INT w, INT h);
