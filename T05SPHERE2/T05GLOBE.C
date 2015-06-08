@@ -1,162 +1,161 @@
 /*T05SPHERE
- *MC6 spr11
- *05.06.2015
- *Build a sphere in a three-dimentional space.
- */
+*MC6 spr11
+*05.06.2015
+*Build a sphere in a three-dimentional space.
+*/
 #include "globe.h"
 
 #define WND_CLASS_NAME "My window class"
 
 
-LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
-                               WPARAM wParam, LPARAM lParam ); /* Функция обработки. */
+LRESULT CALLBACK MyWindowFunc(HWND hWnd, UINT Msg,
+	WPARAM wParam, LPARAM lParam); /* Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё. */
 
-/* Главная функция программы.
- *   - дескриптор экземпляра приложения:
- *       HINSTANCE hInstance;
- *   - дескриптор предыдущего экземпляра приложения
- *     (не используется и должно быть NULL):
- *       HINSTANCE hPrevInstance;
- *   - командная строка:
- *       CHAR *CmdLine;
- * ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:
- *   (INT) код возврата в операционную систему.
- *   0 - при успехе.
- */
-INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
-                    CHAR *CmdLine, INT ShowCmd )
+/* Р“Р»Р°РІРЅР°СЏ С„СѓРЅРєС†РёСЏ РїСЂРѕРіСЂР°РјРјС‹.
+*   - РґРµСЃРєСЂРёРїС‚РѕСЂ СЌРєР·РµРјРїР»СЏСЂР° РїСЂРёР»РѕР¶РµРЅРёСЏ:
+*       HINSTANCE hInstance;
+*   - РґРµСЃРєСЂРёРїС‚РѕСЂ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЌРєР·РµРјРїР»СЏСЂР° РїСЂРёР»РѕР¶РµРЅРёСЏ
+*     (РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Рё РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ NULL):
+*       HINSTANCE hPrevInstance;
+*   - РєРѕРјР°РЅРґРЅР°СЏ СЃС‚СЂРѕРєР°:
+*       CHAR *CmdLine;
+* Р’РћР—Р’Р РђР©РђР•РњРћР• Р—РќРђР§Р•РќРР•:
+*   (INT) РєРѕРґ РІРѕР·РІСЂР°С‚Р° РІ РѕРїРµСЂР°С†РёРѕРЅРЅСѓСЋ СЃРёСЃС‚РµРјСѓ.
+*   0 - РїСЂРё СѓСЃРїРµС…Рµ.
+*/
+INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+	CHAR *CmdLine, INT ShowCmd)
 {
-  WNDCLASS wc;
-  HWND hWnd;
-  MSG msg;
+	WNDCLASS wc;
+	HWND hWnd;
+	MSG msg;
 
-  wc.style = CS_VREDRAW | CS_HREDRAW; /* Стиль окна */
-  wc.cbClsExtra = 0;
-  wc.cbWndExtra = 0;
-  wc.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
-  wc.hCursor = LoadCursor(NULL, IDC_HAND); /* Загрузка курсора (системного) */
-  wc.hIcon = LoadIcon(NULL, IDI_ASTERISK); /* Загрузка пиктограммы (системной) */
-  wc.hInstance = hInstance; /* Дескриптор приложения, регистрирующего класс */
-  wc.lpszMenuName = NULL; /* Имя ресурса меню */
-  wc.lpfnWndProc = MyWindowFunc; /* Указатель на функцию обработки */
-  wc.lpszClassName = WND_CLASS_NAME;
+	wc.style = CS_VREDRAW | CS_HREDRAW; /* РЎС‚РёР»СЊ РѕРєРЅР° */
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
+	wc.hCursor = LoadCursor(NULL, IDC_HAND); /* Р—Р°РіСЂСѓР·РєР° РєСѓСЂСЃРѕСЂР° (СЃРёСЃС‚РµРјРЅРѕРіРѕ) */
+	wc.hIcon = LoadIcon(NULL, IDI_ASTERISK); /* Р—Р°РіСЂСѓР·РєР° РїРёРєС‚РѕРіСЂР°РјРјС‹ (СЃРёСЃС‚РµРјРЅРѕР№) */
+	wc.hInstance = hInstance; /* Р”РµСЃРєСЂРёРїС‚РѕСЂ РїСЂРёР»РѕР¶РµРЅРёСЏ, СЂРµРіРёСЃС‚СЂРёСЂСѓСЋС‰РµРіРѕ РєР»Р°СЃСЃ */
+	wc.lpszMenuName = NULL; /* РРјСЏ СЂРµСЃСѓСЂСЃР° РјРµРЅСЋ */
+	wc.lpfnWndProc = MyWindowFunc; /* РЈРєР°Р·Р°С‚РµР»СЊ РЅР° С„СѓРЅРєС†РёСЋ РѕР±СЂР°Р±РѕС‚РєРё */
+	wc.lpszClassName = WND_CLASS_NAME;
 
 
-  /* Регистрация класса в системе */
-  if (!RegisterClass(&wc))
-  {
-    MessageBox(NULL, "Error register window class", "ERROR", MB_OK);
-    return 0;
-  }
+	/* Р РµРіРёСЃС‚СЂР°С†РёСЏ РєР»Р°СЃСЃР° РІ СЃРёСЃС‚РµРјРµ */
+	if (!RegisterClass(&wc))
+	{
+		MessageBox(NULL, "Error register window class", "ERROR", MB_OK);
+		return 0;
+	}
 
-    /* Создание окна */
-  hWnd =
-    CreateWindow(WND_CLASS_NAME,    /* Имя класса окна */
-      "3D Sphere",                      /* Заголовок окна */
-      WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,          /* Стили окна - окно общего вида */
-      960 - 500, 540 - 500, /* Позиция окна (x, y) - по умолчанию */
-      1000, 1000, /* Размеры окна (w, h) - по умолчанию */
-      NULL,                         /* Дескриптор родительского окна */
-      NULL,                         /* Дескриптор загруженного меню */
-      hInstance,                    /* Дескриптор приложения */
-      NULL);                        /* Указатель на дополнительные параметры */
+	/* РЎРѕР·РґР°РЅРёРµ РѕРєРЅР° */
+	hWnd =
+		CreateWindow(WND_CLASS_NAME,    /* РРјСЏ РєР»Р°СЃСЃР° РѕРєРЅР° */
+		"3D Sphere",                      /* Р—Р°РіРѕР»РѕРІРѕРє РѕРєРЅР° */
+		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,          /* РЎС‚РёР»Рё РѕРєРЅР° - РѕРєРЅРѕ РѕР±С‰РµРіРѕ РІРёРґР° */
+		689 - 350, 370 - 350, /* РџРѕР·РёС†РёСЏ РѕРєРЅР° (x, y) - РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ */
+		700, 700, /* Р Р°Р·РјРµСЂС‹ РѕРєРЅР° (w, h) - РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ */
+		NULL,                         /* Р”РµСЃРєСЂРёРїС‚РѕСЂ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ РѕРєРЅР° */
+		NULL,                         /* Р”РµСЃРєСЂРёРїС‚РѕСЂ Р·Р°РіСЂСѓР¶РµРЅРЅРѕРіРѕ РјРµРЅСЋ */
+		hInstance,                    /* Р”РµСЃРєСЂРёРїС‚РѕСЂ РїСЂРёР»РѕР¶РµРЅРёСЏ */
+		NULL);                        /* РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹ */
 
-  ShowWindow(hWnd, ShowCmd);
-  UpdateWindow(hWnd);
+	ShowWindow(hWnd, ShowCmd);
+	UpdateWindow(hWnd);
 
-    /* Запуск цикла сообщений окна */
-  while (GetMessage(&msg, NULL, 0, 0))
-  {
-    /* Обработка сообщений от клавиатуры */
-    TranslateMessage(&msg);
-    /* Передача сообщений в функцию окна */
-    DispatchMessage(&msg);
-  }
-  return msg.wParam;
+	/* Р—Р°РїСѓСЃРє С†РёРєР»Р° СЃРѕРѕР±С‰РµРЅРёР№ РѕРєРЅР° */
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		/* РћР±СЂР°Р±РѕС‚РєР° СЃРѕРѕР±С‰РµРЅРёР№ РѕС‚ РєР»Р°РІРёР°С‚СѓСЂС‹ */
+		TranslateMessage(&msg);
+		/* РџРµСЂРµРґР°С‡Р° СЃРѕРѕР±С‰РµРЅРёР№ РІ С„СѓРЅРєС†РёСЋ РѕРєРЅР° */
+		DispatchMessage(&msg);
+	}
+	return msg.wParam;
 }
 
 
-/* Функция обработки сообщения окна.
- * АРГУМЕНТЫ:
- *   - дескриптор окна:
- *       HWND hWnd;
- *   - номер сообщения (см. WM_***):
- *       UINT Msg;
- *   - параметр сообшения ('word parameter'):
- *       WPARAM wParam;
- *   - параметр сообшения ('long parameter'):
- *       LPARAM lParam;
- * ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:
- *   (LRESULT) - в зависимости от сообщения.
- */
-LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
-                               WPARAM wParam, LPARAM lParam )
+/* Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕР±С‰РµРЅРёСЏ РѕРєРЅР°.
+* РђР Р“РЈРњР•РќРўР«:
+*   - РґРµСЃРєСЂРёРїС‚РѕСЂ РѕРєРЅР°:
+*       HWND hWnd;
+*   - РЅРѕРјРµСЂ СЃРѕРѕР±С‰РµРЅРёСЏ (СЃРј. WM_***):
+*       UINT Msg;
+*   - РїР°СЂР°РјРµС‚СЂ СЃРѕРѕР±С€РµРЅРёСЏ ('word parameter'):
+*       WPARAM wParam;
+*   - РїР°СЂР°РјРµС‚СЂ СЃРѕРѕР±С€РµРЅРёСЏ ('long parameter'):
+*       LPARAM lParam;
+* Р’РћР—Р’Р РђР©РђР•РњРћР• Р—РќРђР§Р•РќРР•:
+*   (LRESULT) - РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЃРѕРѕР±С‰РµРЅРёСЏ.
+*/
+LRESULT CALLBACK MyWindowFunc(HWND hWnd, UINT Msg,
+	WPARAM wParam, LPARAM lParam)
 {
-  CREATESTRUCT *cs; 
-  POINT pt;
-  SYSTEMTIME st;
-  HPEN hPen;
-  static HDC hDC, hMemDC;
-  static HBITMAP hBm;
-  static INT w, h;
+	CREATESTRUCT *cs;
+	POINT pt;
+	SYSTEMTIME st;
+	HPEN hPen;
+	static HDC hDC, hMemDC;
+	static HBITMAP hBm;
+	static INT w, h;
 
 
-  switch (Msg)
-  {
-  case WM_CREATE:
-    cs = (CREATESTRUCT *)lParam;
-    SetTimer(hWnd, 111, 50, NULL);
+	switch (Msg)
+	{
+	case WM_CREATE:
+		cs = (CREATESTRUCT *)lParam;
+		SetTimer(hWnd, 111, 50, NULL);
 
-    hDC = GetDC(hWnd);
-        /* создаем контекст в памяти */
-    hMemDC = CreateCompatibleDC(hDC);
-    hBm = CreateCompatibleBitmap(hDC, w, h);
-    ReleaseDC(hWnd, hDC);
+		hDC = GetDC(hWnd);
+		/* СЃРѕР·РґР°РµРј РєРѕРЅС‚РµРєСЃС‚ РІ РїР°РјСЏС‚Рё */
+		hMemDC = CreateCompatibleDC(hDC);
+		hBm = CreateCompatibleBitmap(hDC, w, h);
+		ReleaseDC(hWnd, hDC);
 
-    return 0;
+		return 0;
 
-  case WM_SIZE:
-    w = LOWORD(lParam);
-    h = HIWORD(lParam);
+	case WM_SIZE:
+		w = LOWORD(lParam);
+		h = HIWORD(lParam);
 
-    if (hBm != NULL)
-      DeleteObject(hBm);
+		if (hBm != NULL)
+			DeleteObject(hBm);
 
-    hDC = GetDC(hWnd);
-    hBm = CreateCompatibleBitmap(hDC, w, h);
-    ReleaseDC(hWnd, hDC);
+		hDC = GetDC(hWnd);
+		hBm = CreateCompatibleBitmap(hDC, w, h);
+		ReleaseDC(hWnd, hDC);
 
-    SelectObject(hMemDC, hBm);
+		SelectObject(hMemDC, hBm);
 
-    SendMessage(hWnd, WM_TIMER, 111, 0);
-    return 0;
+		SendMessage(hWnd, WM_TIMER, 111, 0);
+		return 0;
 
-  case WM_TIMER:
-    /* Clear Background */
-    SelectObject(hMemDC, GetStockObject(NULL_PEN));
-    SelectObject(hMemDC, GetStockObject(DC_BRUSH));
-    SetDCBrushColor(hMemDC, RGB(255, 255, 150));
-    Rectangle(hMemDC, 0, 0, w + 1, h + 1);
+	case WM_TIMER:
+		/* Clear Background */
+		SelectObject(hMemDC, GetStockObject(NULL_PEN));
+		SelectObject(hMemDC, GetStockObject(DC_BRUSH));
+		SetDCBrushColor(hMemDC, RGB(255, 255, 150));
+		Rectangle(hMemDC, 0, 0, w + 1, h + 1);
 
-    BuildGlobe(hMemDC, w, h);
-    SelectObject(hMemDC, hBm);
-    BitBlt(hDC, 0, 0, w, h, hMemDC, 0, 0, SRCCOPY);
-    InvalidateRect(hWnd, NULL, TRUE);
-    return 0;
+		DrawGlobe(hMemDC, w, h);
+		SelectObject(hMemDC, hBm);
+		BitBlt(hDC, 0, 0, w, h, hMemDC, 0, 0, SRCCOPY);
+		InvalidateRect(hWnd, NULL, TRUE);
+		return 0;
 
-  case WM_CLOSE:
-    break;
+	case WM_CLOSE:
+		break;
 
-  case WM_ERASEBKGND:
-    BitBlt(hDC, 0, 0, w, h, hMemDC, 0, 0, SRCCOPY);
-    return 0;
+	case WM_ERASEBKGND:
+		BitBlt(hDC, 0, 0, w, h, hMemDC, 0, 0, SRCCOPY);
+		return 0;
 
-  case WM_DESTROY:
-    DeleteDC(hMemDC);
-    KillTimer(hWnd, 111);
-    PostQuitMessage(0);
-    return 0;
-  }
-  return DefWindowProc(hWnd, Msg, wParam, lParam);
+	case WM_DESTROY:
+		DeleteDC(hMemDC);
+		KillTimer(hWnd, 111);
+		PostQuitMessage(0);
+		return 0;
+	}
+	return DefWindowProc(hWnd, Msg, wParam, lParam);
 } /* End of 'MyWindowFunc' function */
-
