@@ -1,0 +1,12 @@
+/* FILE NAME: VEC.C
+ * PROGRAMMER: MC6
+ * DATE: 06.06.2015
+ * PURPOSE: All mathemetical samples.
+ */
+
+#include "vec.h"
+#include "anim.h"
+
+#define DEGREE2RADIANL 0.01745329251994329576L
+/* Multiplyer degree to radian constant */
+long double MultiplierDegree2Radian = DEGREE2RADIANL;

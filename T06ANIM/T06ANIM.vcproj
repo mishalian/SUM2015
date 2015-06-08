@@ -66,7 +66,7 @@
 				AdditionalLibraryDirectories="X:\TGRKIT\LIB;$(DXSDK_DIR)Lib\0x86;$(OPENAL_DIR)Libs;"
 				GenerateManifest="false"
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -179,13 +179,61 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\MAIN.C"
+				RelativePath=".\DEF.h"
 				>
 			</File>
 			<File
-				RelativePath=".\VEC.H"
+				RelativePath=".\MAIN.C"
 				>
 			</File>
+			<Filter
+				Name="3D Object Support"
+				>
+				<File
+					RelativePath=".\LOADOBJ.C"
+					>
+				</File>
+				<File
+					RelativePath=".\OBJ.H"
+					>
+				</File>
+				<File
+					RelativePath=".\VEC.C"
+					>
+				</File>
+				<File
+					RelativePath=".\VEC.H"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Animation System"
+				>
+				<File
+					RelativePath=".\ANIM.C"
+					>
+				</File>
+				<File
+					RelativePath=".\ANIM.h"
+					>
+				</File>
+				<File
+					RelativePath=".\UNIT.C"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Units"
+				>
+				<File
+					RelativePath=".\UBALL.C"
+					>
+				</File>
+				<File
+					RelativePath=".\UNITS.H"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"

@@ -23,4 +23,8 @@ typedef struct
 static VEC Grid[N][M];
 
 VOID BuildGlobe(HDC hDC, INT w, INT h);
+<<<<<<< 7657d15ee41ca1055590354e8fe077ff86efc760
 VOID DrawGlobe(HDC hDC, INT w, INT h);
+=======
+VOID DrawGlobe(HDC hDC, INT w, INT h);
+>>>>>>> 977fc549a26382dff558fe32d092344f27deec0b

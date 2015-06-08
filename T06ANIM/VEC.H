@@ -4,10 +4,12 @@
  *My own library of functions for animation.
  */
 
-#include <math.h>
-
 #ifndef __VEC_H_
 #define __VEC_H_
+
+#include <math.h>
+
+#include "def.h"
 
 #define SQR(X) (X) * (X)
 #define PI 3.14159265358979323846
@@ -15,17 +17,20 @@
 #define D2R(X) ((X) * DEGREE2RADIANL)
 #define NOR(M)(MatrTranspose(MatrInverse(M)))
 
-typedef double DBL
+extern long double MultiplierDegree2Radian;
 
 typedef struct tagVEC
 {
   DBL X, Y, Z;
-}VEC
+} VEC;
 
 typedef struct tagMatr
 {
   DBL A[4][4];
-}MATR
+}MATR;
+
+MATR M;
+VEC A;
 
 /*_________________
 MATRIX functions */
@@ -79,7 +84,7 @@ __inline MATR MatrRotateX( DBL AngleDegree )
   MATR M =
   {
     {
-      {1, 0,                    , 0},
+      {1, 0,                      0,                     0},
       {0, cos(D2R(AngleDegree)) , sin(D2R(AngleDegree)), 0},
       {0, -sin(D2R(AngleDegree)), cos(D2R(AngleDegree)), 0},
       {0, 0,                      0,                     1}
@@ -89,7 +94,7 @@ __inline MATR MatrRotateX( DBL AngleDegree )
 }
 
 /*  */
-__inline MATR MatrRotateY( DBL AngleDegree );
+__inline MATR MatrRotateY( DBL AngleDegree )
 {
   MATR M =
   {
@@ -166,6 +171,7 @@ __inline MATR MatrRotate( DBL AngleDegree, DBL X, DBL Y, DBL Z )
 __inline MATR MatrMulMatr( MATR M1, MATR M2 )
 {
   MATR M;
+  INT i, j, k;
 
   for (i = 0; i < 4; i++)
     for (j = 0; j < 4; j++)
@@ -183,7 +189,7 @@ __inline MATR MatrTranspose( MATR M )
 
   for (i = 0; i < 4; i++)
     for (j = 0; j < 4; j++)
-      M1.A[i][j] = M.A[j][i]
+      M1.A[i][j] = M.A[j][i];
   return M1;
 }
 
@@ -245,7 +251,7 @@ __inline MATR MatrInverse( MATR M )
     {0, 2, 3},
     {0, 1, 3},
     {0, 1, 2}
-  };
+  }, i, j;
 
   for (i = 0; i < 4; i++)
     for (j = 0; j < 4; j++)  
@@ -294,7 +300,7 @@ __inline VEC VecMulNum( VEC A, DBL N )
 
 
 /* Devides vector by number */
-__inline EC VecDivNum( VEC A, DBL N );
+__inline VEC VecDivNum( VEC A, DBL N )
 {
   return VecSet(A.X / N, A.Y / N, A.Z / N);
 }
@@ -325,18 +331,18 @@ __inline VEC VecCrossVec( VEC A, VEC B )
   return r;
 } 
 
-               
-/* Returns squared length of the vector */
-__inline DBL VecLen2( VEC V )
-{
-  return SQR(VecLen(V));
-}
-
 
 /* Returns length of the vector */
 __inline DBL VecLen( VEC V )
 {
   return sqrt(SQR(V.X) + SQR(V.Y) + SQR(V.Z));
+}  
+
+
+/* Returns squared length of the vector */
+__inline DBL VecLen2( VEC V )
+{
+  return SQR(VecLen(V));
 }
 
 
@@ -371,7 +377,7 @@ __inline VEC VectorTransform( VEC V, MATR M )
 
 
 /* Rotates vector over 'X' axis */
-VEC VecRotateX( VEC V, DBL AngleInDegree )
+__inline VEC VecRotateX( VEC V, DBL AngleInDegree )
 {
   DBL sine, cosine, tmp;
 
@@ -393,7 +399,7 @@ VEC VecRotateX( VEC V, DBL AngleInDegree )
 
 
 /* Rotates vector over 'Y' axis */
-VEC VecRotateY( VEC V, DBL AngleInDegree )
+__inline VEC VecRotateY( VEC V, DBL AngleInDegree )
 {
   DBL sine, cosine, tmp;
 
@@ -415,7 +421,7 @@ VEC VecRotateY( VEC V, DBL AngleInDegree )
 
 
 /* Rotates vector over 'Z' axis */
-VEC VecRotateZ( VEC V, DBL AngleInDegree )
+__inline VEC VecRotateZ( VEC V, DBL AngleInDegree )
 {
   DBL sine, cosine, tmp;
 
@@ -435,5 +441,5 @@ VEC VecRotateZ( VEC V, DBL AngleInDegree )
   return V;
 }
 
-
+#endif /* __VEC_H_ */
 /* End of 'VEC.H' file */

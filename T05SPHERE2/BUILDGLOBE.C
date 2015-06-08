@@ -65,6 +65,13 @@ VOID DrawGlobe(HDC hDC, INT w, INT h)
 		for (j = 0; j < M - 1; j++)
 		{
 			if (Grid[i][j].Z > 0)
+<<<<<<< 7657d15ee41ca1055590354e8fe077ff86efc760
 				DrawQuad(hDC, Grid[i][j], Grid[i + 1][j], Grid[i + 1][j + 1], Grid[i][j + 1], w, h);
 		}
 }
+=======
+				DrawQuad(hDC, Grid[i][j], Grid[i + 1][j],
+                                Grid[i + 1][j + 1], Grid[i][j + 1], w, h);
+		}
+}
+>>>>>>> 977fc549a26382dff558fe32d092344f27deec0b

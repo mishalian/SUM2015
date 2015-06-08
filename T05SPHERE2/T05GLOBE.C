@@ -9,6 +9,7 @@
 
 
 LRESULT CALLBACK MyWindowFunc(HWND hWnd, UINT Msg,
+<<<<<<< 7657d15ee41ca1055590354e8fe077ff86efc760
 	WPARAM wParam, LPARAM lParam); /* Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸. */
 
 /* Ð“Ð»Ð°Ð²Ð½Ð°Ñ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹.
@@ -22,6 +23,21 @@ LRESULT CALLBACK MyWindowFunc(HWND hWnd, UINT Msg,
 * Ð’ÐžÐ—Ð’Ð ÐÐ©ÐÐ•ÐœÐžÐ• Ð—ÐÐÐ§Ð•ÐÐ˜Ð•:
 *   (INT) ÐºÐ¾Ð´ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‚Ð° Ð² Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ð¾Ð½Ð½ÑƒÑŽ ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ.
 *   0 - Ð¿Ñ€Ð¸ ÑƒÑÐ¿ÐµÑ…Ðµ.
+=======
+	WPARAM wParam, LPARAM lParam); /* Ôóíêöèÿ îáðàáîòêè. */
+
+/* Ãëàâíàÿ ôóíêöèÿ ïðîãðàììû.
+*   - äåñêðèïòîð ýêçåìïëÿðà ïðèëîæåíèÿ:
+*       HINSTANCE hInstance;
+*   - äåñêðèïòîð ïðåäûäóùåãî ýêçåìïëÿðà ïðèëîæåíèÿ
+*     (íå èñïîëüçóåòñÿ è äîëæíî áûòü NULL):
+*       HINSTANCE hPrevInstance;
+*   - êîìàíäíàÿ ñòðîêà:
+*       CHAR *CmdLine;
+* ÂÎÇÂÐÀÙÀÅÌÎÅ ÇÍÀ×ÅÍÈÅ:
+*   (INT) êîä âîçâðàòà â îïåðàöèîííóþ ñèñòåìó.
+*   0 - ïðè óñïåõå.
+>>>>>>> 977fc549a26382dff558fe32d092344f27deec0b
 */
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	CHAR *CmdLine, INT ShowCmd)
@@ -30,6 +46,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	HWND hWnd;
 	MSG msg;
 
+<<<<<<< 7657d15ee41ca1055590354e8fe077ff86efc760
 	wc.style = CS_VREDRAW | CS_HREDRAW; /* Ð¡Ñ‚Ð¸Ð»ÑŒ Ð¾ÐºÐ½Ð° */
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
@@ -43,12 +60,28 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
 	/* Ð ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ñ ÐºÐ»Ð°ÑÑÐ° Ð² ÑÐ¸ÑÑ‚ÐµÐ¼Ðµ */
+=======
+	wc.style = CS_VREDRAW | CS_HREDRAW; /* Ñòèëü îêíà */
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hbrBackground = CreateSolidBrush(RGB(0, 0, 0));
+	wc.hCursor = LoadCursor(NULL, IDC_HAND); /* Çàãðóçêà êóðñîðà (ñèñòåìíîãî) */
+	wc.hIcon = LoadIcon(NULL, IDI_ASTERISK); /* Çàãðóçêà ïèêòîãðàììû (ñèñòåìíîé) */
+	wc.hInstance = hInstance; /* Äåñêðèïòîð ïðèëîæåíèÿ, ðåãèñòðèðóþùåãî êëàññ */
+	wc.lpszMenuName = NULL; /* Èìÿ ðåñóðñà ìåíþ */
+	wc.lpfnWndProc = MyWindowFunc; /* Óêàçàòåëü íà ôóíêöèþ îáðàáîòêè */
+	wc.lpszClassName = WND_CLASS_NAME;
+
+
+	/* Ðåãèñòðàöèÿ êëàññà â ñèñòåìå */
+>>>>>>> 977fc549a26382dff558fe32d092344f27deec0b
 	if (!RegisterClass(&wc))
 	{
 		MessageBox(NULL, "Error register window class", "ERROR", MB_OK);
 		return 0;
 	}
 
+<<<<<<< 7657d15ee41ca1055590354e8fe077ff86efc760
 	/* Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð¾ÐºÐ½Ð° */
 	hWnd =
 		CreateWindow(WND_CLASS_NAME,    /* Ð˜Ð¼Ñ ÐºÐ»Ð°ÑÑÐ° Ð¾ÐºÐ½Ð° */
@@ -60,22 +93,45 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		NULL,                         /* Ð”ÐµÑÐºÑ€Ð¸Ð¿Ñ‚Ð¾Ñ€ Ð·Ð°Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð¼ÐµÐ½ÑŽ */
 		hInstance,                    /* Ð”ÐµÑÐºÑ€Ð¸Ð¿Ñ‚Ð¾Ñ€ Ð¿Ñ€Ð¸Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ */
 		NULL);                        /* Ð£ÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÑŒ Ð½Ð° Ð´Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ */
+=======
+	/* Ñîçäàíèå îêíà */
+	hWnd =
+		CreateWindow(WND_CLASS_NAME,    /* Èìÿ êëàññà îêíà */
+		"3D Sphere",                      /* Çàãîëîâîê îêíà */
+		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,          /* Ñòèëè îêíà - îêíî îáùåãî âèäà */
+		689 - 350, 370 - 350, /* Ïîçèöèÿ îêíà (x, y) - ïî óìîë÷àíèþ */
+		700, 700, /* Ðàçìåðû îêíà (w, h) - ïî óìîë÷àíèþ */
+		NULL,                         /* Äåñêðèïòîð ðîäèòåëüñêîãî îêíà */
+		NULL,                         /* Äåñêðèïòîð çàãðóæåííîãî ìåíþ */
+		hInstance,                    /* Äåñêðèïòîð ïðèëîæåíèÿ */
+		NULL);                        /* Óêàçàòåëü íà äîïîëíèòåëüíûå ïàðàìåòðû */
+>>>>>>> 977fc549a26382dff558fe32d092344f27deec0b
 
 	ShowWindow(hWnd, ShowCmd);
 	UpdateWindow(hWnd);
 
+<<<<<<< 7657d15ee41ca1055590354e8fe077ff86efc760
 	/* Ð—Ð°Ð¿ÑƒÑÐº Ñ†Ð¸ÐºÐ»Ð° ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹ Ð¾ÐºÐ½Ð° */
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
 		/* ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹ Ð¾Ñ‚ ÐºÐ»Ð°Ð²Ð¸Ð°Ñ‚ÑƒÑ€Ñ‹ */
 		TranslateMessage(&msg);
 		/* ÐŸÐµÑ€ÐµÐ´Ð°Ñ‡Ð° ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹ Ð² Ñ„ÑƒÐ½ÐºÑ†Ð¸ÑŽ Ð¾ÐºÐ½Ð° */
+=======
+	/* Çàïóñê öèêëà ñîîáùåíèé îêíà */
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		/* Îáðàáîòêà ñîîáùåíèé îò êëàâèàòóðû */
+		TranslateMessage(&msg);
+		/* Ïåðåäà÷à ñîîáùåíèé â ôóíêöèþ îêíà */
+>>>>>>> 977fc549a26382dff558fe32d092344f27deec0b
 		DispatchMessage(&msg);
 	}
 	return msg.wParam;
 }
 
 
+<<<<<<< 7657d15ee41ca1055590354e8fe077ff86efc760
 /* Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð¾ÐºÐ½Ð°.
 * ÐÐ Ð“Ð£ÐœÐ•ÐÐ¢Ð«:
 *   - Ð´ÐµÑÐºÑ€Ð¸Ð¿Ñ‚Ð¾Ñ€ Ð¾ÐºÐ½Ð°:
@@ -88,6 +144,20 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 *       LPARAM lParam;
 * Ð’ÐžÐ—Ð’Ð ÐÐ©ÐÐ•ÐœÐžÐ• Ð—ÐÐÐ§Ð•ÐÐ˜Ð•:
 *   (LRESULT) - Ð² Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑ‚Ð¸ Ð¾Ñ‚ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ.
+=======
+/* Ôóíêöèÿ îáðàáîòêè ñîîáùåíèÿ îêíà.
+* ÀÐÃÓÌÅÍÒÛ:
+*   - äåñêðèïòîð îêíà:
+*       HWND hWnd;
+*   - íîìåð ñîîáùåíèÿ (ñì. WM_***):
+*       UINT Msg;
+*   - ïàðàìåòð ñîîáøåíèÿ ('word parameter'):
+*       WPARAM wParam;
+*   - ïàðàìåòð ñîîáøåíèÿ ('long parameter'):
+*       LPARAM lParam;
+* ÂÎÇÂÐÀÙÀÅÌÎÅ ÇÍÀ×ÅÍÈÅ:
+*   (LRESULT) - â çàâèñèìîñòè îò ñîîáùåíèÿ.
+>>>>>>> 977fc549a26382dff558fe32d092344f27deec0b
 */
 LRESULT CALLBACK MyWindowFunc(HWND hWnd, UINT Msg,
 	WPARAM wParam, LPARAM lParam)
@@ -108,7 +178,11 @@ LRESULT CALLBACK MyWindowFunc(HWND hWnd, UINT Msg,
 		SetTimer(hWnd, 111, 50, NULL);
 
 		hDC = GetDC(hWnd);
+<<<<<<< 7657d15ee41ca1055590354e8fe077ff86efc760
 		/* ÑÐ¾Ð·Ð´Ð°ÐµÐ¼ ÐºÐ¾Ð½Ñ‚ÐµÐºÑÑ‚ Ð² Ð¿Ð°Ð¼ÑÑ‚Ð¸ */
+=======
+		/* ñîçäàåì êîíòåêñò â ïàìÿòè */
+>>>>>>> 977fc549a26382dff558fe32d092344f27deec0b
 		hMemDC = CreateCompatibleDC(hDC);
 		hBm = CreateCompatibleBitmap(hDC, w, h);
 		ReleaseDC(hWnd, hDC);
@@ -158,4 +232,8 @@ LRESULT CALLBACK MyWindowFunc(HWND hWnd, UINT Msg,
 		return 0;
 	}
 	return DefWindowProc(hWnd, Msg, wParam, lParam);
+<<<<<<< 7657d15ee41ca1055590354e8fe077ff86efc760
 } /* End of 'MyWindowFunc' function */
+=======
+} /* End of 'MyWindowFunc' function */
+>>>>>>> 977fc549a26382dff558fe32d092344f27deec0b
