@@ -15,7 +15,7 @@
  * ARGUMENTS: None.
  * RETURNS: None.
  */
-VOID ObjDraw( VOID );
+VOID ObjDraw( HDC hDC, INT w, INT h );
 
 /* Draw object functioln.
  * ARGUMENTS:

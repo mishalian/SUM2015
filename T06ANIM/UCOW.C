@@ -1,6 +1,6 @@
 /* FILENAME: UBALL.C
  * PROGRAMMER: MC6
- * PURPOSE: Bounce ball unit handle module.
+ * PURPOSE: Cow unit handle module.
  * LAST UPDATE: 08.06.2015
  */
 
@@ -9,19 +9,14 @@
 
 #include "anim.h"
 #include "vec.h"
+#include "obj.h"
 
 /* Òèï ïðåäñòàâëåíèÿ ìÿ÷à */
-typedef struct tagmc6UNIT_BALL
+typedef struct tagmc6UNIT_COW
 {
   MC6_UNIT_BASE_FIELDS;
-
-  VEC Pos;     /* Ïîçèöèÿ ìÿ÷à */
-  DWORD Color; /* Öâåò ìÿ÷à */
-  DBL
-    Amplitude,  /* Àìïëèòóäà */
-    PhaseShift, /* Ñäâèã ïî ôàçå */
-    ScaleShift; /* Ìàñøòàá âðåìåíè */
-} mc6UNIT_BALL;
+  INT w, h;
+} mc6UNIT_COW;
 
 /* Ôóíêöèÿ èíèöèàëèçàöèè îáúåêòà àíèìàöèè.
  * ÀÐÃÓÌÅÍÒÛ:
@@ -31,13 +26,9 @@ typedef struct tagmc6UNIT_BALL
  *       mc6ANIM *Ani;
  * ÂÎÇÂÐÀÙÀÅÌÎÅ ÇÍÀ×ÅÍÈÅ: Íåò.
  */
-static VOID MC6_AnimUnitInit( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
+static VOID MC6_AnimUnitInit( mc6UNIT_COW *Uni, mc6ANIM *Ani )
 {
-  Uni->Pos = VecSet(rand() % 1000, rand() % 700, 0);
-  Uni->Color = RGB(rand() % 256, rand() % 256, rand() % 256);
-  Uni->PhaseShift = rand() % 3000;
-  Uni->ScaleShift = 5 + 0.30 * rand() / RAND_MAX;
-  Uni->Amplitude = 30 + 59.0 * rand() / RAND_MAX;
+  ObjLoad( "cow.object" );
 } /* End of 'MC6_AnimUnitInit' function */
 
 /* Ôóíêöèÿ äåèíèöèàëèçàöèè îáúåêòà àíèìàöèè.
@@ -48,7 +39,7 @@ static VOID MC6_AnimUnitInit( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
  *       mc6ANIM *Ani;
  * ÂÎÇÂÐÀÙÀÅÌÎÅ ÇÍÀ×ÅÍÈÅ: Íåò.
  */
-static VOID MC6_AnimUnitClose( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
+static VOID MC6_AnimUnitClose( mc6UNIT_COW *Uni, mc6ANIM *Ani )
 {
 } /* End of 'MC6_AnimUnitClose' function */
 
@@ -60,7 +51,7 @@ static VOID MC6_AnimUnitClose( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
  *       mc6ANIM *Ani;
  * ÂÎÇÂÐÀÙÀÅÌÎÅ ÇÍÀ×ÅÍÈÅ: Íåò.
  */
-static VOID MC6_AnimUnitResponse( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
+static VOID MC6_AnimUnitResponse( mc6UNIT_COW *Uni, mc6ANIM *Ani )
 {
   if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
     MC6_AnimDoExit();
@@ -76,24 +67,21 @@ static VOID MC6_AnimUnitResponse( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
  *       mc6ANIM *Ani;
  * ÂÎÇÂÐÀÙÀÅÌÎÅ ÇÍÀ×ÅÍÈÅ: Íåò.
  */
-static VOID MC6_AnimUnitRender( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
+static VOID MC6_AnimUnitRender( mc6UNIT_COW *Uni, mc6ANIM *Ani )
 {
-  DBL shift = Uni->Amplitude * fabs(sin(Uni->ScaleShift * (DBL)clock() / CLOCKS_PER_SEC + Uni->PhaseShift));
-
-  SetDCBrushColor(Ani->hDC, Uni->Color);
-  Ellipse(Ani->hDC, Uni->Pos.X - 5, Uni->Pos.Y - 5 - shift, Uni->Pos.X + 5, Uni->Pos.Y + 5 - shift);
+  ObjDraw(Ani->hDC, Ani->W, Ani->H);
 } /* End of 'MC6_AnimUnitRender' function */
 
-/* Ôóíêöèÿ ñîçäàíèÿ îáúåêòà àíèìàöèè "ìÿ÷".
+/* Ôóíêöèÿ ñîçäàíèÿ îáúåêòà àíèìàöèè "êîðîâà".
  * ÀÐÃÓÌÅÍÒÛ: Íåò.
  * ÂÎÇÂÐÀÙÀÅÌÎÅ ÇÍÀ×ÅÍÈÅ:
  *   (mc6UNIT *) óêàçàòåëü íà ñîçäàííûé îáúåêò àíèìàöèè.
  */
-mc6UNIT * MC6_UnitBallCreate( VOID )
+mc6UNIT * MC6_UnitCowCreate( VOID )
 {
-  mc6UNIT_BALL *Uni;
+  mc6UNIT_COW *Uni;
 
-  if ((Uni = (VOID *)MC6_AnimUnitCreate(sizeof(mc6UNIT_BALL))) == NULL)
+  if ((Uni = (VOID *)MC6_AnimUnitCreate(sizeof(mc6UNIT_COW))) == NULL)
     return NULL;
   /* çàïîëíÿåì ïîëÿ */
   Uni->Init = (VOID *)MC6_AnimUnitInit;
@@ -102,6 +90,5 @@ mc6UNIT * MC6_UnitBallCreate( VOID )
   Uni->Render = (VOID *)MC6_AnimUnitRender;
   return (mc6UNIT *)Uni;
 } /* End of 'MC6_UnitBallCreate' function */
-
 
 /* END OF 'UBALL.C' FILE */

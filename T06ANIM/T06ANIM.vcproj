@@ -190,7 +190,7 @@
 				Name="3D Object Support"
 				>
 				<File
-					RelativePath=".\LOADOBJ.C"
+					RelativePath=".\OBJ.C"
 					>
 				</File>
 				<File
@@ -218,6 +218,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\UCONTROL.C"
+					>
+				</File>
+				<File
 					RelativePath=".\UNIT.C"
 					>
 				</File>
@@ -227,6 +231,10 @@
 				>
 				<File
 					RelativePath=".\UBALL.C"
+					>
+				</File>
+				<File
+					RelativePath=".\UCOW.C"
 					>
 				</File>
 				<File

@@ -9,6 +9,9 @@
 
 #define WND_CLASS_NAME "My Window Class Name"
 
+/* Глобальная переменная - счетчик прокрутки колеса мыши */
+INT MC6_MouseWheel;
+
 /* Ссылки вперед */
 LRESULT CALLBACK MainWindowFunc( HWND hWnd, UINT Msg,
                                  WPARAM wParam, LPARAM lParam );
@@ -121,6 +124,9 @@ LRESULT CALLBACK MainWindowFunc( HWND hWnd, UINT Msg,
   case WM_TIMER:
     MC6_AnimRender();
     MC6_AnimCopyFrame();
+    return 0;
+  case WM_MOUSEWHEEL:
+    MC6_MouseWheel += (SHORT)HIWORD(wParam) / WHEEL_DELTA;
     return 0;
   case WM_ERASEBKGND:
     return 1;

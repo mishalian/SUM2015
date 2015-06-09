@@ -6,9 +6,14 @@
 
 #include "anim.h"
 #include <stdio.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm")
+
+/* Получение значения оси джойстика */
+#define MC6_GET_AXIS_VALUE(Axis) \
+  (2.0 * (ji.dw ## Axis ## pos - jc.w ## Axis ## min) / (jc.w ## Axis ## max - jc.w ## Axis ## min) - 1.0)
 
 /* Системный контекст анимации */
-
 static mc6ANIM MC6_Anim;
 /* Данные для синхронизации по времени */
 static INT64
@@ -19,6 +24,10 @@ static INT64
   TimeFPS;   /* время для замера FPS */
 static INT
   FrameCounter; /* счетчик кадров */
+
+/* Сохраненные мышиные координаты */
+static INT
+  MC6_MouseOldX, MC6_MouseOldY;
 
 
 /* Функция установки паузы анимации.
@@ -42,7 +51,10 @@ VOID MC6_AnimSetPause( BOOL NewPauseFlag )
 VOID MC6_AnimInit( HWND hWnd )
 {
   HDC hDC = GetDC(hWnd);
+  POINT pt;
   LARGE_INTEGER li;
+
+  memset(&MC6_Anim, 0, sizeof(mc6ANIM));
 
   QueryPerformanceFrequency(&li);
   TimeFreq = li.QuadPart;
@@ -64,6 +76,14 @@ VOID MC6_AnimInit( HWND hWnd )
   /* Инициализация таймера */
   QueryPerformanceFrequency(&li);
   QueryPerformanceCounter(&li);
+
+  /* Инициализация ввода */
+  GetCursorPos(&pt);
+  ScreenToClient(MC6_Anim.hWnd, &pt);
+  MC6_MouseOldX = pt.x;
+  MC6_MouseOldY = pt.y;
+  GetKeyboardState(MC6_Anim.KeysOld);
+
 } /* End of 'MC6_AnimInit' function */
 
 /* Функция деинициализации анимации.
@@ -116,6 +136,7 @@ VOID MC6_AnimResize( INT W, INT H )
 VOID MC6_AnimRender( VOID )
 {
   INT i;
+  POINT pt;
   LARGE_INTEGER li;
 
   QueryPerformanceCounter(&li);
@@ -169,6 +190,76 @@ VOID MC6_AnimRender( VOID )
     SetDCPenColor(MC6_Anim.hDC, RGB(0, 0, 0));
 
     MC6_Anim.Units[i]->Render(MC6_Anim.Units[i], &MC6_Anim);
+  }
+
+  /*** Обновление ввода ***/
+
+  /* Клавиатура */
+  GetKeyboardState(MC6_Anim.Keys);
+  for (i = 0; i < 256; i++)
+    MC6_Anim.Keys[i] >>= 7;
+  for (i = 0; i < 256; i++)
+    MC6_Anim.KeysClick[i] = MC6_Anim.Keys[i] && !MC6_Anim.KeysOld[i];
+  memcpy(MC6_Anim.KeysOld, MC6_Anim.Keys, sizeof(MC6_Anim.KeysOld));
+
+  /* Мышь */
+  /* колесо */
+  MC6_Anim.MsWheel = MC6_MouseWheel;
+  MC6_MouseWheel = 0;
+  /* абсолютная позиция */
+  GetCursorPos(&pt);
+  ScreenToClient(MC6_Anim.hWnd, &pt);
+  MC6_Anim.MsX = pt.x;
+  MC6_Anim.MsY = pt.y;
+  /* относительное перемещение */
+  MC6_Anim.MsDeltaX = pt.x - MC6_MouseOldX;
+  MC6_Anim.MsDeltaY = pt.y - MC6_MouseOldY;
+  MC6_MouseOldX = pt.x;
+  MC6_MouseOldY = pt.y;
+
+  /* Джойстик */
+  if ((i = joyGetNumDevs()) > 0)
+  {
+    JOYCAPS jc;
+
+    /* получение общей информации о джостике */
+    if (joyGetDevCaps(JOYSTICKID2, &jc, sizeof(jc)) == JOYERR_NOERROR)
+    {
+      JOYINFOEX ji;
+
+      /* получение текущего состояния */
+      ji.dwSize = sizeof(JOYCAPS);
+      ji.dwFlags = JOY_RETURNALL;
+      if (joyGetPosEx(JOYSTICKID2, &ji) == JOYERR_NOERROR)
+      {
+        /* Кнопки */
+        memcpy(MC6_Anim.JButsOld, MC6_Anim.JButs, sizeof(MC6_Anim.JButs));
+        for (i = 0; i < 32; i++)
+          MC6_Anim.JButs[i] = (ji.dwButtons >> i) & 1;
+        for (i = 0; i < 32; i++)
+          MC6_Anim.JButs[i] = MC6_Anim.JButs[i] && !MC6_Anim.JButsOld[i];
+
+        /* Оси */
+        MC6_Anim.JX = MC6_GET_AXIS_VALUE(X);
+        MC6_Anim.JY = MC6_GET_AXIS_VALUE(Y);
+        if (jc.wCaps & JOYCAPS_HASZ)
+          MC6_Anim.JZ = MC6_GET_AXIS_VALUE(Z);
+        if (jc.wCaps & JOYCAPS_HASU)
+          MC6_Anim.JU = MC6_GET_AXIS_VALUE(U);
+        if (jc.wCaps & JOYCAPS_HASV)
+          MC6_Anim.JV = MC6_GET_AXIS_VALUE(V);
+        if (jc.wCaps & JOYCAPS_HASR)
+          MC6_Anim.JR = MC6_GET_AXIS_VALUE(R);
+
+        if (jc.wCaps & JOYCAPS_HASPOV)
+        {
+          if (ji.dwPOV == 0xFFFF)
+            MC6_Anim.JPOV = 0;
+          else
+            MC6_Anim.JPOV = ji.dwPOV / 4500 + 1;
+        }
+      }
+    }
   }
 } /* End of 'MC6_AnimRender' function */
 

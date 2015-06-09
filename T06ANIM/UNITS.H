@@ -16,6 +16,7 @@
  *   (mc6UNIT *) указатель на созданный объект анимации.
  */
 mc6UNIT * MC6_UnitBallCreate( VOID );
+mc6UNIT * MC6_UnitCowCreate( VOID );
 
 #endif /* __UNITS_H_ */
 
