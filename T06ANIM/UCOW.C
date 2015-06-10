@@ -9,14 +9,14 @@
 
 #include "anim.h"
 #include "vec.h"
-#include "obj.h"
 
 /* Тип представления мяча */
 typedef struct tagmc6UNIT_COW
 {
   MC6_UNIT_BASE_FIELDS;
-  INT w, h;
+  mc6GOBJ Cow;
 } mc6UNIT_COW;
+
 
 /* Функция инициализации объекта анимации.
  * АРГУМЕНТЫ:
@@ -28,7 +28,7 @@ typedef struct tagmc6UNIT_COW
  */
 static VOID MC6_AnimUnitInit( mc6UNIT_COW *Uni, mc6ANIM *Ani )
 {
-  ObjLoad( "cow.object" );
+  MC6_RndGObjLoad(&Uni->Cow, "cow.object");
 } /* End of 'MC6_AnimUnitInit' function */
 
 /* Функция деинициализации объекта анимации.
@@ -55,8 +55,6 @@ static VOID MC6_AnimUnitResponse( mc6UNIT_COW *Uni, mc6ANIM *Ani )
 {
   if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
     MC6_AnimDoExit();
-  if (GetAsyncKeyState('F') & 0x8000)
-    MC6_AnimFlipFullScreen();
 } /* End of 'MC6_AnimUnitResponse' function */
 
 /* Функция построения объекта анимации.
@@ -69,7 +67,20 @@ static VOID MC6_AnimUnitResponse( mc6UNIT_COW *Uni, mc6ANIM *Ani )
  */
 static VOID MC6_AnimUnitRender( mc6UNIT_COW *Uni, mc6ANIM *Ani )
 {
-  ObjDraw(Ani->hDC, Ani->W, Ani->H);
+//  ObjDraw(Ani->hDC, Ani->W, Ani->H);
+  MC6_RndMatrView = MatrView(VecSet(8, 8, 8),
+                             VecSet(0, 0, 0),
+                             VecSet(0, 1, 0));
+ /* MC6_RndMatrWorld =
+    MatrMulMatr(MatrMulMatr(MatrMulMatr(
+      MatrTranslate(Ani->JX * 59, Ani->JY * 88, 0),
+      MatrScale(0.1, 0.1, 0.1)),
+      MatrRotateY(30 * Ani->Time + Ani->JR * 180)),
+      MatrTranslate(0, 0, 100 * Ani->JZ)); */
+  SelectObject(Ani->hDC, GetStockObject(DC_PEN)); 
+  SetDCPenColor(Ani->hDC, RGB(rand() / 255, rand() / 255, rand() / 255));
+
+  MC6_RndGObjDraw(&Uni->Cow);
 } /* End of 'MC6_AnimUnitRender' function */
 
 /* Функция создания объекта анимации "корова".

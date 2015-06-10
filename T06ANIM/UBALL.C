@@ -64,8 +64,8 @@ static VOID MC6_AnimUnitResponse( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
 {
   if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
     MC6_AnimDoExit();
-  if (GetAsyncKeyState('F') & 0x8000)
-    MC6_AnimFlipFullScreen();
+  if (Ani->KeysClick['P'])
+    MC6_AnimSetPause(!Ani->IsPause);
 } /* End of 'MC6_AnimUnitResponse' function */
 
 /* Функция построения объекта анимации.

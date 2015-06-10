@@ -9,6 +9,7 @@
 
 #include "def.h"
 #include "vec.h"
+#include "render.h"
 
 #include <windows.h>
 #include <stdlib.h>
@@ -50,7 +51,10 @@ typedef struct
     JPOV;            /* Переключатель POV - 0..8 */
   DBL
     JX, JY, JZ, JR, JU, JV; /* Оси джойстика (-1.0 .. 1.0 */
+
 } mc6ANIM;
+
+extern mc6ANIM MC6_Anim;
 
 /* Базовые поля объекта анимации:
  * - размер структуры для наследования

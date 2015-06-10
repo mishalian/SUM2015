@@ -33,7 +33,6 @@ LRESULT CALLBACK MainWindowFunc( HWND hWnd, UINT Msg,
 INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
                     CHAR *CmdLine, INT ShowCmd )
 {
-  INT i;
   WNDCLASSEX wc;
   HWND hWnd;
   MSG msg;
@@ -77,8 +76,9 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   UpdateWindow(hWnd);
 
   /*** Добавление объектов ***/
-  for (i = 0; i < 300; i++)
-    MC6_AnimAddUnit(MC6_UnitBallCreate());
+  MC6_AnimAddUnit(MC6_UnitBallCreate());
+  MC6_AnimAddUnit(MC6_UnitCowCreate());
+  MC6_AnimAddUnit(MC6_UnitControlCreate());
 
   /* Запуск цикла обработки сообщений */
   while (GetMessage(&msg, NULL, 0, 0))

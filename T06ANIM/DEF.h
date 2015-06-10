@@ -11,6 +11,10 @@
 
 #include <windows.h>
 
+/* Large integer types */
+typedef __int64 INT64;
+typedef unsigned __int64 UINT64;
+
 /* Common purpose float-point data type */
 typedef float FLT;
 typedef double DBL;

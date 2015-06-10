@@ -17,6 +17,7 @@
  */
 mc6UNIT * MC6_UnitBallCreate( VOID );
 mc6UNIT * MC6_UnitCowCreate( VOID );
+mc6UNIT * MC6_UnitControlCreate( VOID );
 
 #endif /* __UNITS_H_ */
 

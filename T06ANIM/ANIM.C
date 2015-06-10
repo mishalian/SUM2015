@@ -14,7 +14,7 @@
   (2.0 * (ji.dw ## Axis ## pos - jc.w ## Axis ## min) / (jc.w ## Axis ## max - jc.w ## Axis ## min) - 1.0)
 
 /* Системный контекст анимации */
-static mc6ANIM MC6_Anim;
+mc6ANIM MC6_Anim;
 /* Данные для синхронизации по времени */
 static INT64
   TimeFreq,  /* единиц измерения в секунду */

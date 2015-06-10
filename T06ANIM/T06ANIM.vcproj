@@ -190,14 +190,6 @@
 				Name="3D Object Support"
 				>
 				<File
-					RelativePath=".\OBJ.C"
-					>
-				</File>
-				<File
-					RelativePath=".\OBJ.H"
-					>
-				</File>
-				<File
 					RelativePath=".\VEC.C"
 					>
 				</File>
@@ -215,6 +207,10 @@
 				</File>
 				<File
 					RelativePath=".\ANIM.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RENDER.C"
 					>
 				</File>
 				<File
@@ -248,6 +244,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\RENDER.H"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
