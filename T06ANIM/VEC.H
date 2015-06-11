@@ -234,23 +234,6 @@ __inline DBL MatrDeterm( MATR M )
 
 
 /*  */
-__inline MATR MatrIdentity( VOID )
-{
-  MATR M =
-  {
-    {
-      {1, 0, 0, 0},
-      {0, 1, 0, 0},
-      {0, 0, 1, 0},
-      {0, 0, 0, 1}
-    }
-  };
-
-  return M;
-}
-
-
-/*  */
 __inline MATR MatrInverse( MATR M )
 {
   MATR r;

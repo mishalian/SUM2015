@@ -53,8 +53,6 @@ static VOID MC6_AnimUnitClose( mc6UNIT_COW *Uni, mc6ANIM *Ani )
  */
 static VOID MC6_AnimUnitResponse( mc6UNIT_COW *Uni, mc6ANIM *Ani )
 {
-  if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
-    MC6_AnimDoExit();
 } /* End of 'MC6_AnimUnitResponse' function */
 
 /* Функция построения объекта анимации.
@@ -67,18 +65,18 @@ static VOID MC6_AnimUnitResponse( mc6UNIT_COW *Uni, mc6ANIM *Ani )
  */
 static VOID MC6_AnimUnitRender( mc6UNIT_COW *Uni, mc6ANIM *Ani )
 {
-//  ObjDraw(Ani->hDC, Ani->W, Ani->H);
-  MC6_RndMatrView = MatrView(VecSet(8, 8, 8),
+  MC6_RndMatrView = MatrView(VecSet(5, 5, 5),
                              VecSet(0, 0, 0),
                              VecSet(0, 1, 0));
- /* MC6_RndMatrWorld =
+  
+  MC6_RndMatrWorld =
     MatrMulMatr(MatrMulMatr(MatrMulMatr(
       MatrTranslate(Ani->JX * 59, Ani->JY * 88, 0),
       MatrScale(0.1, 0.1, 0.1)),
       MatrRotateY(30 * Ani->Time + Ani->JR * 180)),
-      MatrTranslate(0, 0, 100 * Ani->JZ)); */
+      MatrTranslate(0, 0, 100 * Ani->JZ)); 
   SelectObject(Ani->hDC, GetStockObject(DC_PEN)); 
-  SetDCPenColor(Ani->hDC, RGB(rand() / 255, rand() / 255, rand() / 255));
+  SetDCPenColor(Ani->hDC, RGB(255, 255, 255));
 
   MC6_RndGObjDraw(&Uni->Cow);
 } /* End of 'MC6_AnimUnitRender' function */

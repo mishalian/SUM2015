@@ -89,10 +89,10 @@ static VOID MC6_AnimUnitRender( mc6UNIT_CTRL *Uni, mc6ANIM *Ani )
   DrawText(Ani->hDC, Buf,
     sprintf(Buf,
       "FPS: %.3f\n"
-      "J: %i %i %i, POV:%i\n"
-      "%.5f %.5f %.5f %.5f %.5f %.5f",
+      "J: %i %i %i %i %i %i, POV:%i\n"
+      "%.3f %.3f %.3f %.3f %.3f %.3f",
       Ani->FPS,
-      Ani->JButs[0], Ani->JButs[1], Ani->JButs[2], Ani->JPOV,
+      Ani->JButs[0n]], Ani->JButs[1], Ani->JButs[2], Ani->JButs[3], Ani->JButs[4], Ani->JButs[5], Ani->JPOV,
       Ani->JX, Ani->JY, Ani->JZ, Ani->JR, Ani->JU, Ani->JV),
     &rc,
     DT_TOP | DT_LEFT);

@@ -5,7 +5,6 @@
  */
 
 #include "vec.h"
-#include "anim.h"
 
 #define DEGREE2RADIANL 0.01745329251994329576L
 /* Multiplyer degree to radian constant */

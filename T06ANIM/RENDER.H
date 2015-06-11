@@ -7,7 +7,7 @@
 #ifndef __RENDER_H_
 #define __RENDER_H_
 
-#include "vec.h"
+#include "anim.h"
 
 /* Тип представления объекта - набор вершин и треугольников */
 typedef struct tagmc6GOBJ
@@ -21,6 +21,7 @@ typedef struct tagmc6GOBJ
 /* Матрицы */
 extern MATR
   MC6_RndMatrWorld,
+  MC6_RndMatrProj,
   MC6_RndMatrView;
 
 /* Параметры проецирования */

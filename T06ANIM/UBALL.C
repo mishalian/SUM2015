@@ -62,10 +62,6 @@ static VOID MC6_AnimUnitClose( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
  */
 static VOID MC6_AnimUnitResponse( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
 {
-  if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
-    MC6_AnimDoExit();
-  if (Ani->KeysClick['P'])
-    MC6_AnimSetPause(!Ani->IsPause);
 } /* End of 'MC6_AnimUnitResponse' function */
 
 /* Функция построения объекта анимации.
@@ -78,7 +74,7 @@ static VOID MC6_AnimUnitResponse( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
  */
 static VOID MC6_AnimUnitRender( mc6UNIT_BALL *Uni, mc6ANIM *Ani )
 {
-  DBL shift = Uni->Amplitude * fabs(sin(Uni->ScaleShift * (DBL)clock() / CLOCKS_PER_SEC + Uni->PhaseShift));
+  DBL shift = Uni->Amplitude * fabs(sin(Uni->ScaleShift * Ani->Time + Uni->PhaseShift));
 
   SetDCBrushColor(Ani->hDC, Uni->Color);
   Ellipse(Ani->hDC, Uni->Pos.X - 5, Uni->Pos.Y - 5 - shift, Uni->Pos.X + 5, Uni->Pos.Y + 5 - shift);

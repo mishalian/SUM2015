@@ -14,6 +14,7 @@
 MATR
   MC6_RndMatrWorld = MC6_UNIT_MATR,
   MC6_RndMatrView = MC6_UNIT_MATR,
+  MC6_RndMatrProj = MC6_UNIT_MATR,
   MC6_RndMatrWorldView = MC6_UNIT_MATR;
 
 /* Параметры проецирования */
@@ -34,10 +35,10 @@ POINT MC6_RndWorldToScreen( VEC P )
   VEC Pp;
 
   /* преобразование СК */
-  P = VectorTransform(P, MC6_RndMatrWorldView);
+  P = PointTransform(P, MC6_RndMatrWorldView);
 
-  Pp.X = P.X * MC6_RndProjDist / P.Z;
-  Pp.Y = P.Y * MC6_RndProjDist / P.Z;
+  Pp.X = P.X * MC6_RndProjDist / -P.Z;
+  Pp.Y = P.Y * MC6_RndProjDist / -P.Z;
 
   Ps.x = MC6_Anim.W / 2 + Pp.X * MC6_Anim.W / MC6_RndWp;
   Ps.y = MC6_Anim.H / 2 - Pp.Y * MC6_Anim.H / MC6_RndHp;

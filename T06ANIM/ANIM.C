@@ -127,6 +127,13 @@ VOID MC6_AnimResize( INT W, INT H )
   MC6_Anim.H = H;
 
   ReleaseDC(MC6_Anim.hWnd, hDC);
+
+  if (W > H)
+    MC6_RndWp = (DBL)W / H * 3, MC6_RndHp = 3;
+  else
+    MC6_RndHp = (DBL)H / W * 3, MC6_RndWp = 3;
+
+    MC6_RndMatrProj = MatrFrustum(-MC6_RndWp / 2, MC6_RndWp / 2, -MC6_RndHp / 2, MC6_RndHp / 2, MC6_RndProjDist, 800);
 } /* End of 'MC6_AnimResize' function */
 
 /* Функция построения кадра анимации.
@@ -223,21 +230,21 @@ VOID MC6_AnimRender( VOID )
     JOYCAPS jc;
 
     /* получение общей информации о джостике */
-    if (joyGetDevCaps(JOYSTICKID2, &jc, sizeof(jc)) == JOYERR_NOERROR)
+    if (joyGetDevCaps(JOYSTICKID1, &jc, sizeof(jc)) == JOYERR_NOERROR)
     {
       JOYINFOEX ji;
 
       /* получение текущего состояния */
       ji.dwSize = sizeof(JOYCAPS);
       ji.dwFlags = JOY_RETURNALL;
-      if (joyGetPosEx(JOYSTICKID2, &ji) == JOYERR_NOERROR)
+      if (joyGetPosEx(JOYSTICKID1, &ji) == JOYERR_NOERROR)
       {
         /* Кнопки */
         memcpy(MC6_Anim.JButsOld, MC6_Anim.JButs, sizeof(MC6_Anim.JButs));
         for (i = 0; i < 32; i++)
           MC6_Anim.JButs[i] = (ji.dwButtons >> i) & 1;
         for (i = 0; i < 32; i++)
-          MC6_Anim.JButs[i] = MC6_Anim.JButs[i] && !MC6_Anim.JButsOld[i];
+          MC6_Anim.JButsClick[i] = MC6_Anim.JButs[i] && !MC6_Anim.JButsOld[i];
 
         /* Оси */
         MC6_Anim.JX = MC6_GET_AXIS_VALUE(X);
@@ -301,7 +308,7 @@ VOID MC6_AnimAddUnit( mc6UNIT *Unit )
 VOID MC6_AnimFlipFullScreen( VOID )
 {
   static BOOL IsFullScreen = FALSE; /* текущий режим */
-  static RECT SaveRC;               /* сохраненный размер */
+  static RECT SaveRC;               /* сохраненный размер окна */
 
   if (!IsFullScreen)
   {
