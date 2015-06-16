@@ -85,6 +85,23 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   return msg.wParam;
 }
 
+VOID DrawHand( HDC hDC, INT X1, INT Y1, INT Len, INT w, DOUBLE Angle )
+{
+  DOUBLE si = sin(Angle), co = cos(Angle);
+  INT i;
+  POINT pnts[] = 
+  {
+    {0, -w}, {-w, 0}, {0, Len}, {w, 0}
+  }, pntdraw[sizeof pnts / sizeof pnts[0]];
+
+  for (i = 0; i < sizeof pnts / sizeof pnts[0]; i++)
+  {
+    pntdraw[i].x = X1 + pnts[i].x * co - pnts[i].y * si;
+    pntdraw[i].y = Y1 + pnts[i].x * si + pnts[i].y * co;
+  }
+  Polygon(hDC, pntdraw, 4);
+} /* End of 'DrawArrow' function */
+
 
 /* Функция обработки сообщения окна.
  * АРГУМЕНТЫ:
@@ -180,16 +197,23 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
 
     DeleteObject(hFnt);
 
-    Angle = st.wSecond / 30.0 * PI;
+ //   Angle = st.wSecond / 30.0 * PI + PI / 2;
 
     hPen = CreatePen(PS_SOLID, 5, RGB(255, 255, 255));
     SelectObject(hMemDC, hPen);
 
-    pt.x = cos(Angle) * 250;
+/*    pt.x = cos(Angle) * 250;
     pt.y = sin(Angle) * 250;
     MoveToEx(hMemDC, w / 2, h / 2, NULL);
-    LineTo(hMemDC, w / 2 - pt.x, h / 2 - pt.y);
+    LineTo(hMemDC, w / 2 - pt.x, h / 2 - pt.y);  */
+
+    SetDCBrushColor(hMemDC, RGB(0, 200, 200)); 
+    DrawHand(hMemDC, w / 2, h / 2, 150, 10, (int)st.wHour % 12 * PI / 180);
+    DrawHand(hMemDC, w / 2, h / 2, 200, 10, st.wMinute * 6 * PI / 180 + PI);
     
+    SetDCBrushColor(hMemDC, RGB(0, 0, 0));
+    DrawHand(hMemDC, w / 2, h / 2, 250, 10, st.wSecond * 6 * PI / 180 + PI);
+
     DeleteObject(hPen);   
   
     InvalidateRect(hWnd, NULL, TRUE);
