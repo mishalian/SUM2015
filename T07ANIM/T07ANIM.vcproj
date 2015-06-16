@@ -207,6 +207,10 @@
 					Name="Rendering"
 					>
 					<File
+						RelativePath=".\MTLLIB.C"
+						>
+					</File>
+					<File
 						RelativePath=".\RENDER.C"
 						>
 					</File>
@@ -221,6 +225,14 @@
 					<Filter
 						Name="Geometry Support"
 						>
+						<File
+							RelativePath=".\GEOM.C"
+							>
+						</File>
+						<File
+							RelativePath=".\PRIM.C"
+							>
+						</File>
 					</Filter>
 				</Filter>
 			</Filter>
@@ -247,10 +259,6 @@
 			<Filter
 				Name="Units"
 				>
-				<File
-					RelativePath=".\UBALL.C"
-					>
-				</File>
 				<File
 					RelativePath=".\UCONTRL.C"
 					>

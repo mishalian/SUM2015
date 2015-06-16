@@ -11,7 +11,10 @@ typedef struct tagmc6UNIT_MODEL
 {
   MC6_UNIT_BASE_FIELDS;
 
-  mc6GOBJ Model; /* Модель для отображения */
+  mc6GEOM Model; /* Модель для отображения */
+  mc6GEOM Geom; /* Модель для отображения */
+  mc6PRIM Pr;
+  INT TextId;  /* Id текстуры */
 } mc6UNIT_MODEL;
 
 /* Функция инициализации объекта анимации.
@@ -24,7 +27,30 @@ typedef struct tagmc6UNIT_MODEL
  */
 static VOID MC6_AnimUnitInit( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
 {
-  MC6_RndGObjLoad(&Uni->Model, "cow.object");
+  mc6VERTEX V[]= 
+  {
+    {{0, 0, 0}, {0, 0}, {0, 0, 1}, {1, 1, 1, 1}},
+    {{1, 0, 0}, {5, 0}, {0, 0, 1}, {1, 0, 1, 1}},
+    {{0, 1, 0}, {0, 5}, {0, 0, 1}, {1, 1, 0, 1}},
+    {{1, 1, 0}, {5, 5}, {0, 0, 1}, {1, 1, 0, 1}},
+  };
+  INT I[] = {0, 1, 2, 2, 1, 3};
+  BYTE txt[2][2][3] =
+  {
+    {{255, 255, 255}, {0, 0, 0}},
+    {{0, 0, 0}, {255, 255, 255}}
+  };
+
+  /* загружаем текстуру */
+  Uni->TextId = MC6_TextureLoad("M.BMP");
+
+  MC6_PrimCreate(&Uni->Pr, MC6_PRIM_TRIMESH, 4, 6, V, I);
+
+  MC6_RndPrimMatrConvert = MatrMulMatr(MatrScale(5, 5, 5), MatrRotateX(-90));
+  //MC6_GeomLoad(&Uni->Model, "NISPF.g3d");
+
+  MC6_RndPrimMatrConvert = MatrMulMatr(MatrScale(3, 3, 3), MatrRotateX(-90));
+  MC6_GeomLoad(&Uni->Geom, "X6.G3D");
 } /* End of 'MC6_AnimUnitInit' function */
 
 /* Функция деинициализации объекта анимации.
@@ -37,7 +63,9 @@ static VOID MC6_AnimUnitInit( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
  */
 static VOID MC6_AnimUnitClose( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
 {
-  MC6_RndGObjFree(&Uni->Model);
+  MC6_GeomFree(&Uni->Model);
+  MC6_GeomFree(&Uni->Geom);
+  MC6_PrimFree(&Uni->Pr);
 } /* End of 'MC6_AnimUnitClose' function */
 
 /* Функция построения объекта анимации.
@@ -51,9 +79,8 @@ static VOID MC6_AnimUnitClose( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
 static VOID MC6_AnimUnitRender( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
 {
   INT i, j;
-  static DBL rtte = 1;
 
-  MC6_RndMatrView = MatrView(VecSet(8, 8, 8),
+  MC6_RndMatrView = MatrView(VecSet(50, 50, 50),
                              VecSet(0, 0, 0),
                              VecSet(0, 1, 0));
 
@@ -63,23 +90,25 @@ static VOID MC6_AnimUnitRender( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   glEnable(GL_DEPTH_TEST);
 
-  if (Ani->JButs[6])
-    rtte++;
-  if (Ani->JButs[7])
-    rtte--;
-
   for (i = 0; i < 1; i++)
     for (j = 0; j < 1; j++)
     {
       MC6_RndMatrWorld =
         MatrMulMatr(MatrMulMatr(MatrMulMatr(
-          MatrTranslate(Ani->JX * 59, Ani->JZ * 88, 0),
+          MatrTranslate(Ani->JX * 59, Ani->JY * 88, 0),
           MatrScale(0.1, 0.1, 0.1)),
-          MatrRotateY(rtte)),
-          MatrTranslate(j * 1.30, 0, i * 1.30 + 100 * Ani->JY));
+          MatrRotateY(30 * Ani->Time + Ani->JR * 180)),
+          MatrTranslate(j * 1.30, 0, i * 1.30 + 100 * Ani->JZ));
       glColor3d(i & 1, j & 1, 1 - ((i & 1) + (j & 1)) / 2);
-      MC6_RndGObjDraw(&Uni->Model);
+      MC6_GeomDraw(&Uni->Model);
     }
+  MC6_RndMatrWorld = MatrRotateY(30 * Ani->Time);
+  //MatrMulMatr(MatrRotateZ(30 * sin(Ani->Time * 3.0)), MatrRotateY(30 * Ani->Time));
+  MC6_GeomDraw(&Uni->Geom);
+
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, Uni->TextId);
+  MC6_PrimDraw(&Uni->Pr);
 } /* End of 'MC6_AnimUnitRender' function */
 
 /* Функция создания объекта анимации "модель".

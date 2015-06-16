@@ -84,6 +84,10 @@ BOOL MC6_AnimInit( HWND hWnd )
 
   MC6_RndProg = MC6_ShaderLoad("TEST");
 
+  glActiveTexture(GL_TEXTURE0);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
   /* Инициализация таймера */
   QueryPerformanceFrequency(&li);
   TimeFreq = li.QuadPart;
@@ -263,10 +267,10 @@ VOID MC6_AnimRender( VOID )
     MC6_Anim.Units[i]->Response(MC6_Anim.Units[i], &MC6_Anim);
 
   /* очистка фона */
-  glClearColor(0, 0, 0, 1);
+  glClearColor(0.3, 0.5, 0.7, 1);
   glClearDepth(1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glColorMask(TRUE, TRUE, TRUE, FALSE);
+  glColorMask(TRUE, TRUE, TRUE, TRUE);
 
 
   /*

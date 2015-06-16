@@ -95,11 +95,11 @@ static VOID MC6_AnimUnitRender( mc6UNIT_CTRL *Uni, mc6ANIM *Ani )
   DrawText(Ani->hDC, Buf,
     sprintf(Buf,
       "FPS: %.3f\n"
-      "J: %i %i %i, POV:%i\n"
-      "%.5f %.5f %.5f %.5f %.5f %.5f",
+      "J: %i %i %i %i %i %i, POV:%i, %i %i\n"
+      "%.5f %.5f %.5f %.5f",
       Ani->FPS,
-      Ani->JButs[0], Ani->JButs[1], Ani->JButs[2], Ani->JPOV,
-      Ani->JX, Ani->JY, Ani->JZ, Ani->JR, Ani->JU, Ani->JV),
+      Ani->JButs[0], Ani->JButs[1], Ani->JButs[2], Ani->JButs[3], Ani->JButs[4], Ani->JButs[5], Ani->JPOV, Ani->JButs[6], Ani->JButs[7],
+      Ani->JX, Ani->JY, Ani->JZ, Ani->JR),
     &rc,
     DT_TOP | DT_LEFT);
   SelectObject(Ani->hDC, hFntOld);
@@ -122,6 +122,6 @@ mc6UNIT * MC6_UnitControlCreate( VOID )
   Uni->Response = (VOID *)MC6_AnimUnitResponse;
   Uni->Render = (VOID *)MC6_AnimUnitRender;
   return (mc6UNIT *)Uni;
-} /* End of 'MC6_UnitBallCreate' function */
+} /* End of 'MC6_UnitControlCreate' function */
 
 /* END OF 'UCONTRL.C' FILE */
