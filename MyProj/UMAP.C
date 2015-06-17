@@ -46,8 +46,6 @@ static VOID MC6_AnimUnitInit( mc6UNIT_MAP *Uni, mc6ANIM *Ani )
 static VOID MC6_AnimUnitClose( mc6UNIT_MAP *Uni, mc6ANIM *Ani )
 {
   MC6_PrimFree(&Uni->Map);
-//  MC6_GeomFree(&Uni->Geom);
-//  MC6_PrimFree(&Uni->Pr);
 } /* End of 'MC6_AnimUnitClose' function */
 
 /* Функция построения объекта анимации.
@@ -57,7 +55,7 @@ static VOID MC6_AnimUnitClose( mc6UNIT_MAP *Uni, mc6ANIM *Ani )
  *   - указатель на контекст анимации:
  *       mc6ANIM *Ani;
  * ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ: Нет.
- */
+ */                                                                              
 static VOID MC6_AnimUnitRender( mc6UNIT_MAP *Uni, mc6ANIM *Ani )
 {
   static DBL rttX = 0, rttY = 0;
@@ -70,6 +68,8 @@ static VOID MC6_AnimUnitRender( mc6UNIT_MAP *Uni, mc6ANIM *Ani )
  
   MC6_RndMatrView = MatrMulMatr(MatrMulMatr(
     MC6_RndMatrView, MatrRotateY(rttX)), MatrRotateX(rttY));
+
+  // MC6_RndMatrView = CamUp(MC6_RndMatrView);
 
   if (Ani->KeysClick['L'])
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
