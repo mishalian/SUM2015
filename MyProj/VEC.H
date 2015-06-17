@@ -517,6 +517,12 @@ __inline MATR MatrFrustum( FLT Left, FLT Right, FLT Bottom, FLT Top, FLT Near, F
   return m;
 } /* End of 'MatrFrustum' function */
 
+/*__inline MATR Rotation( DBL W )
+{
+  MATR M = MatrIdentity;
+  return M;
+} */
+
 #endif /* __VEC_H_ */
 
 /* END OF 'VEC.H' FILE */

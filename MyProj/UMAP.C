@@ -60,11 +60,16 @@ static VOID MC6_AnimUnitClose( mc6UNIT_MAP *Uni, mc6ANIM *Ani )
  */
 static VOID MC6_AnimUnitRender( mc6UNIT_MAP *Uni, mc6ANIM *Ani )
 {
-//  INT i, j;
+  static DBL rttX = 0, rttY = 0;
 
-  MC6_RndMatrView = MatrView(VecSet(8, 8, 8),
+  MC6_RndMatrView = MatrView(VecSet(10, 10, 10),
                              VecSet(0, 0, 0),
                              VecSet(0, 1, 0));
+  rttX += Ani->JX * 0.2;
+  rttY += Ani->JY * 0.2;
+ 
+  MC6_RndMatrView = MatrMulMatr(MatrMulMatr(
+    MC6_RndMatrView, MatrRotateY(rttX)), MatrRotateX(rttY));
 
   if (Ani->KeysClick['L'])
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

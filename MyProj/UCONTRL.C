@@ -72,7 +72,7 @@ static VOID MC6_AnimUnitResponse( mc6UNIT_CTRL *Uni, mc6ANIM *Ani )
  */
 static VOID MC6_AnimUnitRender( mc6UNIT_CTRL *Uni, mc6ANIM *Ani )
 {
-  RECT rc;
+/*  RECT rc;
   HFONT hFntOld = SelectObject(Ani->hDC, Uni->hFnt);
   static DBL count = 30;
   static CHAR Buf[1000];
@@ -102,7 +102,7 @@ static VOID MC6_AnimUnitRender( mc6UNIT_CTRL *Uni, mc6ANIM *Ani )
       Ani->JX, Ani->JY, Ani->JZ, Ani->JR),
     &rc,
     DT_TOP | DT_LEFT);
-  SelectObject(Ani->hDC, hFntOld);      
+  SelectObject(Ani->hDC, hFntOld);  */    
 } /* End of 'MC6_AnimUnitRender' function */
 
 /* Функция создания объекта анимации "управление".
