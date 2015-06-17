@@ -170,6 +170,23 @@ typedef struct tagmc6VERTEX
 VOID MC6_PrimCreate( mc6PRIM *Prim, mc6PRIM_TYPE Type,
                      INT NoofV, INT NoofI, mc6VERTEX *Vertices, INT *Indices);
 
+/* Функция создания примитива карта высот.
+ * АРГУМЕНТЫ:
+ *   - указатель на примитив:
+ *       mc6PRIM *Prim;
+ *   - угловая точка:
+ *       VEC Loc;
+ *   - касательные вектора-стороны:
+ *       VEC Du, Dv;
+ *   - масштаб по высоте:
+ *       DBL Scale;
+ *   - имя файла с высотами:
+ *       CHAR *FileName;
+ * ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:
+ *   (BOOL) TRUE при успехе, иначе FALSE.
+ */
+BOOL MC6_PrimCreateHeightField( mc6PRIM *Prim, VEC Loc, VEC Du, VEC Dv, DBL Scale, CHAR *FileName );
+
 /* Функция удаления примитива.
  * АРГУМЕНТЫ:
  *   - указатель на примитив:

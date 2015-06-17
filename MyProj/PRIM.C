@@ -420,6 +420,6 @@ BOOL MC6_PrimCreateHeightField( mc6PRIM *Prim, VEC Loc, VEC Du, VEC Dv, DBL Scal
   free(V);
 
   return TRUE;
-} /* End of 'MC6_PrimCreatePlane' function */
+} /* End of 'MC6_PrimCreateHeightField' function */
 
 /* END OF 'PRIM.C' FILE */
