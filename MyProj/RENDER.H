@@ -30,7 +30,7 @@ extern DBL
   MC6_RndProjDist;         /* расстояние до плоскости проекции */
 
 /* Шейдер по умолчанию */
-extern UINT MC6_RndProg, MC6_SkyProg;
+extern UINT MC6_RndProg;
 
 /* Функция загрузки шейдеров для одной программы.
  * АРНУМЕНТЫ:
@@ -201,7 +201,7 @@ VOID MC6_PrimFree( mc6PRIM *Prim );
  *       mc6PRIM *Prim;
  * ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ: Нет.
  */
-VOID MC6_PrimDraw( mc6PRIM *Prim, INT s );
+VOID MC6_PrimDraw( mc6PRIM *Prim );
 
 /* Функция создания примитива плоскость.
  * АРГУМЕНТЫ:

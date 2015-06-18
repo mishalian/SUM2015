@@ -163,7 +163,7 @@ UINT MC6_ShaderLoad( CHAR *FileNamePrefix )
  */
 VOID MC6_ShaderFree( UINT PrgId )
 {
-  UINT i, n, shdrs[5];
+  UINT i, n, shdrs[5]; 
 
   if (PrgId == 0)
     return;

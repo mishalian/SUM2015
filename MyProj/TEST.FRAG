@@ -80,7 +80,7 @@ void main( void )
 {
   if (Kt != 1)
     ;//discard;
-  OutColor = 1;
+  OutColor = DrawColor * Shade(DrawPosition.xyz, DrawNormal);
 }
 
 

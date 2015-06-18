@@ -23,6 +23,13 @@ mc6UNIT * MC6_UnitControlCreate( VOID );
  */
 mc6UNIT * MC6_UnitMapCreate( VOID );
 
+/* Функция создания объекта анимации "небо".
+ * АРГУМЕНТЫ: Нет.
+ * ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ:
+ *   (mc6UNIT *) указатель на созданный объект анимации.
+ */
+mc6UNIT * MC6_UnitSkyCreate( VOID );
+
 #endif /* __UNITS_H_ */
 
 /* END OF 'UNITS.H' FILE */

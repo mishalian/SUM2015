@@ -83,7 +83,6 @@ BOOL MC6_AnimInit( HWND hWnd )
   }
 
   MC6_RndProg = MC6_ShaderLoad("TEST");
-  MC6_SkyProg = MC6_ShaderLoad("SKY");
 
   glActiveTexture(GL_TEXTURE0);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -123,9 +122,7 @@ VOID MC6_AnimClose( VOID )
   }
 
   MC6_ShaderFree(MC6_RndProg);
-  MC6_ShaderFree(MC6_SkyProg);
   MC6_RndProg = 0;
-  MC6_SkyProg = 0;
   /* делаем текущими контексты */
   wglMakeCurrent(NULL, NULL);
   wglDeleteContext(MC6_Anim.hGLRC);
@@ -295,8 +292,6 @@ VOID MC6_AnimRender( VOID )
       time = 0;
       MC6_ShaderFree(MC6_RndProg);
       MC6_RndProg = MC6_ShaderLoad("TEST");
-      MC6_ShaderFree(MC6_RndProg);
-      MC6_SkyProg = MC6_ShaderLoad("SKY");
     }
 
     MC6_RndMatrWorld = MatrIdentity();

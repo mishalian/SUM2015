@@ -79,7 +79,7 @@ static VOID MC6_AnimUnitRender( mc6UNIT_SKY *Uni, mc6ANIM *Ani )
 
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, Uni->TextId);
-  MC6_PrimDraw(&Uni->Sky, 1);
+  MC6_PrimDraw(&Uni->Sky);
 } /* End of 'MC6_AnimUnitRender' function */
 
 /* Функция создания объекта анимации "небо".

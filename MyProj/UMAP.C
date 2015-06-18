@@ -79,7 +79,7 @@ static VOID MC6_AnimUnitRender( mc6UNIT_MAP *Uni, mc6ANIM *Ani )
 
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, Uni->TextId);
-  MC6_PrimDraw(&Uni->Map, 0);
+  MC6_PrimDraw(&Uni->Map);
 } /* End of 'MC6_AnimUnitRender' function */
 
 /* Функция создания объекта анимации "модель".
