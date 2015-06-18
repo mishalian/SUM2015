@@ -59,7 +59,7 @@ static CHAR * MC6_TextLoad( CHAR *FileName )
     fclose(F);
   }
   return mem;
-} /* End of 'MC6_ShaderLoad' function */
+} /* End of 'MC6_TextLoad' function */
 
 /* Функция загрузки шейдеров для одной программы.
  * АРНУМЕНТЫ:

@@ -86,7 +86,7 @@ VOID MC6_GeomDraw( mc6GEOM *G )
       if (loc != -1)
         glUniform1f(loc, i);
       glUseProgram(0);
-      MC6_PrimDraw(&G->Prims[i]);
+      MC6_PrimDraw(&G->Prims[i], 0);
     }
 
   /* рисуем прозрачные объекты */
@@ -99,7 +99,7 @@ VOID MC6_GeomDraw( mc6GEOM *G )
       if (loc != -1)
         glUniform1f(loc, i);
       glUseProgram(0);
-      MC6_PrimDraw(&G->Prims[i]);
+      MC6_PrimDraw(&G->Prims[i], 0);
     }
 } /* End of 'MC6_GeomDraw' function */
 

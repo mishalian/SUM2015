@@ -271,6 +271,10 @@
 					RelativePath=".\UNITS.H"
 					>
 				</File>
+				<File
+					RelativePath=".\USKY.C"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

@@ -78,9 +78,9 @@ vec4 Shade( vec3 P, vec3 N )
 
 void main( void )
 {
-  if (Kt != 1)
-    ;//discard;
-  OutColor = 1;
+  if (Kt != 1);
+    //discard;
+  OutColor = DrawColor * Shade(DrawPosition.xyz, DrawNormal);
 }
 
 

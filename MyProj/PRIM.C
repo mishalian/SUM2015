@@ -103,10 +103,16 @@ VOID MC6_PrimFree( mc6PRIM *Prim )
  *       mc6PRIM *Prim;
  * ВОЗВРАЩАЕМОЕ ЗНАЧЕНИЕ: Нет.
  */
-VOID MC6_PrimDraw( mc6PRIM *Prim )
+VOID MC6_PrimDraw( mc6PRIM *Prim, INT s )
 {
   INT loc;
   MATR M;
+  UINT Prog;
+
+  if (s = 0)
+    Prog = MC6_RndProg;
+  else
+    Prog = MC6_SkyProg;
 
   MC6_RndMatrWorldViewProj = MatrMulMatr(MatrMulMatr(MC6_RndMatrWorld, MC6_RndMatrView), MC6_RndMatrProj);
 
@@ -115,58 +121,58 @@ VOID MC6_PrimDraw( mc6PRIM *Prim )
 
   /* рисуем треугольники */
   glBindVertexArray(Prim->VA);
-  glUseProgram(MC6_RndProg);
+  glUseProgram(Prog);
 
-  loc = glGetUniformLocation(MC6_RndProg, "MatrWorld");
+  loc = glGetUniformLocation(Prog, "MatrWorld");
   if (loc != -1)
     glUniformMatrix4fv(loc, 1, FALSE, MC6_RndMatrWorld.A[0]);
-  loc = glGetUniformLocation(MC6_RndProg, "MatrView");
+  loc = glGetUniformLocation(Prog, "MatrView");
   if (loc != -1)
     glUniformMatrix4fv(loc, 1, FALSE, MC6_RndMatrView.A[0]);
-  loc = glGetUniformLocation(MC6_RndProg, "MatrProj");
+  loc = glGetUniformLocation(Prog, "MatrProj");
   if (loc != -1)
     glUniformMatrix4fv(loc, 1, FALSE, MC6_RndMatrProj.A[0]);
-  loc = glGetUniformLocation(MC6_RndProg, "MatrWVP");
+  loc = glGetUniformLocation(Prog, "MatrWVP");
   if (loc != -1)
     glUniformMatrix4fv(loc, 1, FALSE, MC6_RndMatrWorldViewProj.A[0]);
 
   M = MatrTranspose(MatrInverse(MatrMulMatr(MC6_RndMatrWorld, MC6_RndMatrView)));
-  loc = glGetUniformLocation(MC6_RndProg, "MatrWVInverse");
+  loc = glGetUniformLocation(Prog, "MatrWVInverse");
   if (loc != -1)
     glUniformMatrix4fv(loc, 1, FALSE, M.A[0]);
 
   M = MatrTranspose(MatrInverse(MC6_RndMatrWorld));
-  loc = glGetUniformLocation(MC6_RndProg, "MatrWInverse");
+  loc = glGetUniformLocation(Prog, "MatrWInverse");
   if (loc != -1)
     glUniformMatrix4fv(loc, 1, FALSE, M.A[0]);
 
   M = MatrMulMatr(MC6_RndMatrWorld, MC6_RndMatrView);
-  loc = glGetUniformLocation(MC6_RndProg, "MatrWV");
+  loc = glGetUniformLocation(Prog, "MatrWV");
   if (loc != -1)
     glUniformMatrix4fv(loc, 1, FALSE, M.A[0]);
 
-  loc = glGetUniformLocation(MC6_RndProg, "Time");
+  loc = glGetUniformLocation(Prog, "Time");
   if (loc != -1)
     glUniform1f(loc, MC6_Anim.Time);
 
   /* Применение материала */
-  loc = glGetUniformLocation(MC6_RndProg, "Ka");
+  loc = glGetUniformLocation(Prog, "Ka");
   if (loc != -1)
     glUniform3fv(loc, 1, &MC6_MtlLib[Prim->MtlNo].Ka.X);
-  loc = glGetUniformLocation(MC6_RndProg, "Kd");
+  loc = glGetUniformLocation(Prog, "Kd");
   if (loc != -1)
     glUniform3fv(loc, 1, &MC6_MtlLib[Prim->MtlNo].Kd.X);
-  loc = glGetUniformLocation(MC6_RndProg, "Ks");
+  loc = glGetUniformLocation(Prog, "Ks");
   if (loc != -1)
     glUniform3fv(loc, 1, &MC6_MtlLib[Prim->MtlNo].Ks.X);
-  loc = glGetUniformLocation(MC6_RndProg, "Kp");
+  loc = glGetUniformLocation(Prog, "Kp");
   if (loc != -1)
     glUniform1f(loc, MC6_MtlLib[Prim->MtlNo].Kp);
-  loc = glGetUniformLocation(MC6_RndProg, "Kt");
+  loc = glGetUniformLocation(Prog, "Kt");
   if (loc != -1)
     glUniform1f(loc, MC6_MtlLib[Prim->MtlNo].Kt);
 
-  loc = glGetUniformLocation(MC6_RndProg, "IsTextureUse");
+  loc = glGetUniformLocation(Prog, "IsTextureUse");
   if (MC6_MtlLib[Prim->MtlNo].TexId == 0)
     glUniform1f(loc, 0);
   else
@@ -185,6 +191,8 @@ VOID MC6_PrimDraw( mc6PRIM *Prim )
   glUseProgram(0);
   glBindVertexArray(0);
 } /* End of 'MC6_PrimDraw' function */
+
+
 
 /* Функция создания примитива плоскость.
  * АРГУМЕНТЫ:

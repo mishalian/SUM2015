@@ -519,10 +519,20 @@ __inline MATR MatrFrustum( FLT Left, FLT Right, FLT Bottom, FLT Top, FLT Near, F
 
 __inline MATR CamUp( MATR M )
 {
-  M.A[0][2] = 0;
-  M.A[1][2] = 1;
-  M.A[2][2] = 0;
-  return M;
+  VEC
+    Dir = VecSet(0, 0, 0), Right, Up;
+  Dir.X = M.A[0][2];
+  Dir.Y = M.A[1][2];
+  Right.X = M.A[0][0];
+  Right.Y = M.A[1][0];
+  Right.Z = M.A[2][0];
+  Up = VecNormalize(VecCrossVec(Right, Dir));
+  
+
+  M.A[0][1] = Up.X;
+  M.A[1][1] = Up.Y;
+  M.A[2][1] = Up.Z;
+  return M; 
 }
 
 

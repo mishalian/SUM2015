@@ -79,6 +79,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   /*** Добавление объектов ***/
   for (i = 0; i < 1; i++)
   MC6_AnimAddUnit(MC6_UnitMapCreate());
+  MC6_AnimAddUnit(MC6_UnitSkyCreate());
   MC6_AnimAddUnit(MC6_UnitControlCreate());
 
   /* Запуск цикла обработки сообщений */
