@@ -208,7 +208,7 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
     LineTo(hMemDC, w / 2 - pt.x, h / 2 - pt.y);  */
 
     SetDCBrushColor(hMemDC, RGB(0, 200, 200)); 
-    DrawHand(hMemDC, w / 2, h / 2, 150, 10, (int)st.wHour % 12 * PI / 180);
+    DrawHand(hMemDC, w / 2, h / 2, 150, 10, (int)(st.wHour) % 12 * PI / 180 + 0.25);
     DrawHand(hMemDC, w / 2, h / 2, 200, 10, st.wMinute * 6 * PI / 180 + PI);
     
     SetDCBrushColor(hMemDC, RGB(0, 0, 0));
