@@ -27,13 +27,6 @@ typedef struct tagmc6UNIT_MODEL
  */
 static VOID MC6_AnimUnitInit( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
 {
-  mc6VERTEX V[]= 
-  {
-    {{0, 0, 0}, {0, 0}, {0, 0, 1}, {1, 1, 1, 1}},
-    {{1, 0, 0}, {5, 0}, {0, 0, 1}, {1, 0, 1, 1}},
-    {{0, 1, 0}, {0, 5}, {0, 0, 1}, {1, 1, 0, 1}},
-    {{1, 1, 0}, {5, 5}, {0, 0, 1}, {1, 1, 0, 1}},
-  };
   INT I[] = {0, 1, 2, 2, 1, 3};
   BYTE txt[2][2][3] =
   {
@@ -44,13 +37,10 @@ static VOID MC6_AnimUnitInit( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
   /* загружаем текстуру */
   Uni->TextId = MC6_TextureLoad("M.BMP");
 
-  MC6_PrimCreate(&Uni->Pr, MC6_PRIM_TRIMESH, 4, 6, V, I);
+  MC6_RndPrimMatrConvert = MatrMulMatr(MatrScale(5, 5, 5), MatrRotateX(0));
 
-  MC6_RndPrimMatrConvert = MatrMulMatr(MatrScale(5, 5, 5), MatrRotateX(-90));
-  //MC6_GeomLoad(&Uni->Model, "NISPF.g3d");
-
-  MC6_RndPrimMatrConvert = MatrMulMatr(MatrScale(3, 3, 3), MatrRotateX(-90));
   MC6_GeomLoad(&Uni->Geom, "X6.G3D");
+  MC6_MtlAdd(mc6MATERIAL *Mtl);
 } /* End of 'MC6_AnimUnitInit' function */
 
 /* Функция деинициализации объекта анимации.
@@ -80,7 +70,7 @@ static VOID MC6_AnimUnitRender( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
 {
   INT i, j;
 
-  MC6_RndMatrView = MatrView(VecSet(50, 50, 50),
+  MC6_RndMatrView = MatrView(VecSet(30, 30, 30),
                              VecSet(0, 0, 0),
                              VecSet(0, 1, 0));
 
@@ -102,8 +92,7 @@ static VOID MC6_AnimUnitRender( mc6UNIT_MODEL *Uni, mc6ANIM *Ani )
       glColor3d(i & 1, j & 1, 1 - ((i & 1) + (j & 1)) / 2);
       MC6_GeomDraw(&Uni->Model);
     }
-  MC6_RndMatrWorld = MatrRotateY(30 * Ani->Time);
-  //MatrMulMatr(MatrRotateZ(30 * sin(Ani->Time * 3.0)), MatrRotateY(30 * Ani->Time));
+  MC6_RndMatrWorld = MatrRotateY(Ani->Time * 30);
   MC6_GeomDraw(&Uni->Geom);
 
   glActiveTexture(GL_TEXTURE0);

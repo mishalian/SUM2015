@@ -62,7 +62,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   }
 
   /* Создание окна */
-  hWnd = CreateWindow(WND_CLASS_NAME, "First Window Sample",
+  hWnd = CreateWindow(WND_CLASS_NAME, "Avent",
     WS_OVERLAPPEDWINDOW,          /* Стиль окна - перекрывающееся */
     CW_USEDEFAULT, CW_USEDEFAULT, /* Позиция окна (x, y) - по умолчанию */
     CW_USEDEFAULT, CW_USEDEFAULT, /* Размеры окна (w, h) - по умолчанию */
